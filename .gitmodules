@@ -22,3 +22,27 @@
 [submodule "tools/sdk/uzlib"]
 	path = tools/sdk/uzlib
 	url = https://github.com/earlephilhower/uzlib.git
+[submodule "libraries/ArduinoJson"]
+	path =libraries/ArduinoJson
+	url = https://github.com/bblanchon/ArduinoJson
+[submodule "libraries/LinkedList"]
+	path =libraries/LinkedList
+	url = https://github.com/ivanseidel/LinkedList
+[submodule "libraries/esp8266-oled-ssd1306"]
+	path =libraries/esp8266-oled-ssd1306
+	url = https://github.com/ThingPulse/esp8266-oled-ssd1306
+[submodule "libraries/SimpleCLI"]
+	path =libraries/SimpleCLI
+	url = https://github.com/spacehuhn/SimpleCLI
+[submodule "libraries/Adafruit_NeoPixel"]
+	path =libraries/Adafruit_NeoPixel
+	url = https://github.com/adafruit/Adafruit_NeoPixel
+[submodule "libraries/SimpleButton"]
+	path =libraries/SimpleButton
+	url = https://github.com/spacehuhn/SimpleButton
+[submodule "libraries/ESPAsyncTCP"]
+	path = libraries/ESPAsyncTCP
+	url = https://github.com/me-no-dev/ESPAsyncTCP
+[submodule "libraries/ESPAsyncWebServer"]
+	path = libraries/ESPAsyncWebServer
+	url = https://github.com/me-no-dev/ESPAsyncWebServer

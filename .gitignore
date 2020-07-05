@@ -32,3 +32,5 @@ boards.local.txt
 .vs/
 __vm/
 *.vcxproj*
+
+*.orig
