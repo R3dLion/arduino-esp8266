@@ -47,11 +47,6 @@ ESP8266 core files are licensed under LGPL.
 
 ## Modifications
 
-* Added [ArduinoJSON library](https://github.com/bblanchon/ArduinoJson)
-* Added [Adafruit Neopixel library](https://github.com/adafruit/Adafruit_NeoPixel)
-* Added [esp8266-oled-ssd1306 library](https://github.com/ThingPulse/esp8266-oled-ssd1306)
-* Added [LinkedList library](https://github.com/ivanseidel/LinkedList)
-* Added [SimpleButton library](https://github.com/spacehuhn/SimpleButton)
 * Added [SimpleCLI library](https://github.com/spacehuhn/SimpleCLI)
 * Added [ESPAsyncTCP library](https://github.com/me-no-dev/ESPAsyncTCP)
 * Added [ESPAsyncWebServer library](https://github.com/me-no-dev/ESPAsyncWebServer)
