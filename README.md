@@ -50,6 +50,7 @@ ESP8266 core files are licensed under LGPL.
 * Added [SimpleCLI library](https://github.com/spacehuhn/SimpleCLI)
 * Added [ESPAsyncTCP library](https://github.com/me-no-dev/ESPAsyncTCP)
 * Added [ESPAsyncWebServer library](https://github.com/me-no-dev/ESPAsyncWebServer)
-* Modified boards.txt.py and boards.txt and platform.txt to add deauther boards and change default values
+* Added variants: dstike, sero
+* Modified boards.txt.py and boards.txt and platform.txt to add wifi duck boards and change default values
 * Patched libnet802.11a to allow for packet injection
 * Modified platform.txt to change package name and add project specific compiler flags
