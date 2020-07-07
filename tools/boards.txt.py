@@ -663,13 +663,60 @@ boards = collections.OrderedDict([
     #         '',
     #     ],
     # })
-
+    ( 'dstike', {
+        'name': 'DSTIKE WiFi Duck (ESP8266)',
+        'opts': {
+            '.build.board': 'ESP8266_NODEMCU',
+            '.build.variant': 'dstike',
+            },
+        'macro': [
+            'duck_debug_menu',
+            'protocol_i2c',
+            'resetmethod_nodemcu',
+            'flashmode_dio',
+            'flashfreq_40',
+            '4M', '2M',
+            #'led216',
+            'cpufreq_160', 
+            'vtable_flash', 
+            'exception_legacy', 
+            'ssl_cipher_all',
+            'debug_none',
+            'lwip_v2_higher_bandwidth',
+            ],
+        'desc': [ '' ],
+    }),
+    ( 'sero', {
+        'name': 'Project Sero (ESP8266)',
+        'opts': {
+            '.build.board': 'ESP8266_NODEMCU',
+            '.build.variant': 'sero',
+            },
+        'macro': [
+            'duck_debug_menu',
+            'protocol_serial',
+            'resetmethod_nodemcu',
+            'flashmode_dio',
+            'flashfreq_40',
+            '4M', '2M',
+            #'led216',
+            'cpufreq_160', 
+            'vtable_flash', 
+            'exception_legacy', 
+            'ssl_cipher_all',
+            'debug_none',
+            'lwip_v2_higher_bandwidth',
+            ],
+        'desc': [ '' ],
+    }),
     ( 'generic', {
         'name': 'Generic ESP8266',
         'opts': {
             '.build.board': 'ESP8266_GENERIC',
             },
         'macro': [
+            'duck_debug_menu',
+            'protocol_menu',
             'resetmethod_menu',
             'resetmethod_menu_extra',
             'crystalfreq_menu',
@@ -890,6 +937,8 @@ boards = collections.OrderedDict([
             '.build.variant': 'esp8285'
             },
         'macro': [
+            'duck_debug_menu',
+            'protocol_menu',
             'resetmethod_menu',
             'resetmethod_menu_extra',
             'crystalfreq_menu',
@@ -917,6 +966,8 @@ boards = collections.OrderedDict([
             '.build.variant': 'adafruit',
             },
         'macro': [
+            'duck_debug_menu',
+            'protocol_menu',
             'resetmethod_nodemcu',
             'flashmode_qio',
             'flashfreq_40',
@@ -940,6 +991,8 @@ boards = collections.OrderedDict([
             '.build.variant': 'nodemcu',
             },
         'macro': [
+            'duck_debug_menu',
+            'protocol_menu',
             'resetmethod_nodemcu',
             'flashmode_dio',
             'flashfreq_40',
@@ -972,6 +1025,8 @@ boards = collections.OrderedDict([
             '.build.variant': 'd1_mini',
             },
         'macro': [
+            'duck_debug_menu',
+            'protocol_menu',
             'resetmethod_nodemcu',
             'flashmode_dio',
             'flashfreq_40',
@@ -1266,6 +1321,39 @@ macros = {
     'debug_none': collections.OrderedDict([
             ( '.build.debug_port', '' ),
         ]),
+
+    ####################### menu.debug
+
+    'duck_debug_menu': collections.OrderedDict([
+        ( '.menu.debug.disabled', 'Disabled' ),
+        ( '.menu.debug.serial', 'Serial (115200, newline)' ),
+        ( '.menu.debug.serial.build.debug_flags', '-DENABLE_DEBUG -DDEBUG_PORT=Serial -DDEBUG_BAUD=115200' ),
+        ]),
+
+    ####################### default duck_debug
+
+    'duck_debug_serial': collections.OrderedDict([
+        ( '.build.debug_flags', '-DENABLE_DEBUG -DDEBUG_PORT=Serial -DDEBUG_BAUD=115200' ),
+        ]),
+
+    ####################### menu.protocol
+
+    'protocol_menu': collections.OrderedDict([
+        ( '.menu.protocol.i2c', 'I2C' ),
+        ( '.menu.protocol.i2c.build.protocol_flags', '-DENABLE_I2C -DI2C_SDA=4 -DI2C_SCL=5' ),
+        ( '.menu.protocol.serial', 'Serial' ),
+        ( '.menu.protocol.serial.build.protocol_flags', '-DENABLE_SERIAL' ),
+    ]),
+
+    ####################### default protocol
+
+    'protocol_i2c': collections.OrderedDict([
+        ( '.build.protocol_flags', '-DENABLE_I2C -DI2C_SDA=4 -DI2C_SCL=5' ),
+    ]),
+
+    'protocol_serial': collections.OrderedDict([
+        ( '.build.protocol_flags', '-DENABLE_SERIAL' ),
+    ]),
 
     }
 
