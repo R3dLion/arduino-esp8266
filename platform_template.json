@@ -1,5 +1,5 @@
 {
-    "name": "ESP8266 Deauther Boards",
+    "name": "Deauther ESP8266 Boards",
     "architecture": "esp8266",
     "version": "__VERSION__",
     "category": "deauther",
