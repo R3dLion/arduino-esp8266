@@ -457,6 +457,10 @@ void HTTPClient::disconnect(bool preserveClient)
 #endif
         }
     } else {
+        if (!preserveClient && _client) { // Also destroy _client if not connected()
+            _client = nullptr;
+        }
+
         DEBUG_HTTPCLIENT("[HTTP-Client][end] tcp is closed\n");
     }
 }
@@ -675,7 +679,7 @@ int HTTPClient::sendRequest(const char * type, const uint8_t * payload, size_t s
 
         // connect to server
         if(!connect()) {
-            return returnError(HTTPC_ERROR_CONNECTION_REFUSED);
+            return returnError(HTTPC_ERROR_CONNECTION_FAILED);
         }
 
         addHeader(F("Content-Length"), String(payload && size > 0 ? size : 0));
@@ -789,7 +793,7 @@ int HTTPClient::sendRequest(const char * type, Stream * stream, size_t size)
 
     // connect to server
     if(!connect()) {
-        return returnError(HTTPC_ERROR_CONNECTION_REFUSED);
+        return returnError(HTTPC_ERROR_CONNECTION_FAILED);
     }
 
     if(size > 0) {
@@ -970,7 +974,9 @@ int HTTPClient::writeToStream(Stream * stream)
         return returnError(HTTPC_ERROR_NO_STREAM);
     }
 
-    if(!connected()) {
+    // Only return error if not connected and no data available, because otherwise ::getString() will return an error instead of an empty
+    // string when the server returned a http code 204 (no content)
+    if(!connected() && _transferEncoding != HTTPC_TE_IDENTITY && _size > 0) {
         return returnError(HTTPC_ERROR_NOT_CONNECTED);
     }
 
@@ -979,11 +985,13 @@ int HTTPClient::writeToStream(Stream * stream)
     int ret = 0;
 
     if(_transferEncoding == HTTPC_TE_IDENTITY) {
-        ret = writeToStreamDataBlock(stream, len);
+        if(len > 0) {
+            ret = writeToStreamDataBlock(stream, len);
 
-        // have we an error?
-        if(ret < 0) {
-            return returnError(ret);
+            // have we an error?
+            if(ret < 0) {
+                return returnError(ret);
+            }
         }
     } else if(_transferEncoding == HTTPC_TE_CHUNKED) {
         int size = 0;
@@ -1075,8 +1083,8 @@ const String& HTTPClient::getString(void)
 String HTTPClient::errorToString(int error)
 {
     switch(error) {
-    case HTTPC_ERROR_CONNECTION_REFUSED:
-        return F("connection refused");
+    case HTTPC_ERROR_CONNECTION_FAILED:
+        return F("connection failed");
     case HTTPC_ERROR_SEND_HEADER_FAILED:
         return F("send header failed");
     case HTTPC_ERROR_SEND_PAYLOAD_FAILED:
@@ -1198,12 +1206,8 @@ bool HTTPClient::hasHeader(const char* name)
  */
 bool HTTPClient::connect(void)
 {
-    if(connected()) {
-        if(_reuse) {
-            DEBUG_HTTPCLIENT("[HTTP-Client] connect: already connected, reusing connection\n");
-        } else {
-            DEBUG_HTTPCLIENT("[HTTP-Client] connect: already connected, try reuse!\n");
-        }
+    if(_reuse && _canReuse && connected()) {
+        DEBUG_HTTPCLIENT("[HTTP-Client] connect: already connected, reusing connection\n");
         while(_client->available() > 0) {
             _client->read();
         }
@@ -1334,6 +1338,7 @@ int HTTPClient::handleHeaderResponse()
     while(connected()) {
         size_t len = _client->available();
         if(len > 0) {
+            int headerSeparator = -1;
             String headerLine = _client->readStringUntil('\n');
 
             lastDataTime = millis();
@@ -1341,15 +1346,13 @@ int HTTPClient::handleHeaderResponse()
             DEBUG_HTTPCLIENT("[HTTP-Client][handleHeaderResponse] RX: '%s'\n", headerLine.c_str());
 
             if (headerLine.startsWith(F("HTTP/1."))) {
-                if (_canReuse) {
-                    _canReuse = (headerLine[sizeof "HTTP/1." - 1] != '0');
-                }
-                _returnCode = headerLine.substring(9, headerLine.indexOf(' ', 9)).toInt();
-                continue;
-            }
 
-            int headerSeparator = headerLine.indexOf(':');
-            if (headerSeparator > 0) {
+                constexpr auto httpVersionIdx = sizeof "HTTP/1." - 1;
+                _canReuse = _canReuse && (headerLine[httpVersionIdx] != '0');
+                _returnCode = headerLine.substring(httpVersionIdx + 2, headerLine.indexOf(' ', httpVersionIdx + 2)).toInt();
+                _canReuse = _canReuse && (_returnCode > 0) && (_returnCode < 500);
+
+            } else if ((headerSeparator = headerLine.indexOf(':')) > 0) {
                 String headerName = headerLine.substring(0, headerSeparator);
                 String headerValue = headerLine.substring(headerSeparator + 1);
                 headerValue.trim();
