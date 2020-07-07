@@ -1,7 +1,7 @@
-# ESP8266 Arduino Core for ESP8266 Deauther Project
+# ESP8266 Arduino Core for ESP8266 WiFi Duck Project
 
-This repository is a fork of the [ESP8266 Arduino Core](https://github.com/esp8266/Arduino) to include libraries, boards and modifications necessary to compile the [ESP8266 Deauther](https://github.com/spacehuhntech/esp8266_deauther) project.  
-The goal of this is to have a simpler installation setup for anyone that likes to test, modify and contribute to the deauther project.  
+This repository is a fork of the [ESP8266 Arduino Core](https://github.com/esp8266/Arduino) to include libraries, boards and modifications necessary to compile the [WiFi Duck](https://github.com/spacehuhntech/wifiduck) project.  
+The goal of this is to have a simpler installation setup for anyone that likes to test, modify and contribute to the WiFi Duck project.  
 
 ## License and credits
 
