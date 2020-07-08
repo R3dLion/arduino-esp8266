@@ -15,7 +15,7 @@
         {"name": "NodeMCU"},
         {"name": "LOLIN(WEMOS) D1 mini"}
     ],
-    "tool_fileDependencies": [
+    "toolsDependencies": [
         {
             "packager": "wifiduck",
             "version": "2.5.0-4-b40a506",
