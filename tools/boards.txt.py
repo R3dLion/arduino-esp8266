@@ -1493,9 +1493,9 @@ def all_flash_map ():
     f2m.update( flash_map(  2*1024,    1024 ))
     f2m.update( flash_map(  2*1024))
 
+    f4m.update( flash_map(  4*1024,    1024 ))
     f4m.update( flash_map(  4*1024,  2*1024 ))
     f4m.update( flash_map(  4*1024,  3*1024 ))
-    f4m.update( flash_map(  4*1024,    1024 ))
     f4m.update( flash_map(  4*1024))
 
     f8m.update( flash_map(  8*1024,  6*1024 ))
