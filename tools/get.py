@@ -127,7 +127,7 @@ def main():
     if (os.path.exists('python3/python3')):
         os.unlink('python3/python3')
     print('Platform: {0}'.format(identify_platform()))
-    tools_to_download = load_tools_list('../package/package_esp8266com_index.template.json', identify_platform())
+    tools_to_download = load_tools_list('../../package_spacehuhn_index.json', identify_platform())
     mkdir_p(dist_dir)
     for tool in tools_to_download:
         get_tool(tool)

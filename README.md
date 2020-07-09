@@ -53,3 +53,4 @@ ESP8266 core files are licensed under LGPL.
 * Added variants: dstike, sero
 * Modified boards.txt.py and boards.txt and platform.txt to add wifi duck boards and change default values
 * Modified platform.txt to change package name and add project specific compiler flags
+* Modified get.py to use `../../package_spacehuhn_index.json`
