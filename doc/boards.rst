@@ -6,8 +6,8 @@ DSTIKE WiFi Duck (ESP8266)
 
 
 
-Project Sero (ESP8266)
-----------------------
+Malduino W (ESP8266)
+--------------------
 
 
 
