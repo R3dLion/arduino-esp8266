@@ -9,6 +9,8 @@
     "size": "__SIZE__",
     "help": { "online": "https://github.com/spacehuhntech/wifiduck" },
     "boards": [
+        {"name": "DSTIKE WiFi Duck (ESP8266)"},
+        {"name": "Malduino W (ESP8266)"},
         {"name": "Generic ESP8266"},
         {"name": "Generic ESP8285"},
         {"name": "Adafruit Feather HUZZAH"},

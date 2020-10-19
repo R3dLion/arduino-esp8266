@@ -666,7 +666,7 @@ boards = collections.OrderedDict([
     ( 'dstike', {
         'name': 'DSTIKE WiFi Duck (ESP8266)',
         'opts': {
-            '.build.board': 'ESP8266_NODEMCU',
+            '.build.board': 'ESP8266_DSTIKE_WIFI_DUCK',
             '.build.variant': 'dstike',
             },
         'macro': [
@@ -686,11 +686,11 @@ boards = collections.OrderedDict([
             ],
         'desc': [ '' ],
     }),
-    ( 'sero', {
-        'name': 'Project Sero (ESP8266)',
+    ( 'malduinow', {
+        'name': 'Malduino W (ESP8266)',
         'opts': {
-            '.build.board': 'ESP8266_NODEMCU',
-            '.build.variant': 'sero',
+            '.build.board': 'ESP8266_MALDUINO_W',
+            '.build.variant': 'malduinow',
             },
         'macro': [
             'duck_debug_menu',
