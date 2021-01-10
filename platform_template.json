@@ -7,13 +7,31 @@
     "archiveFileName": "__FILENAME__",
     "checksum": "SHA-256:__HASH__",
     "size": "__SIZE__",
-    "help": { "online": "https://github.com/spacehuhntech/esp8266_deauther" },
+    "help": {
+        "online": "https://github.com/spacehuhntech/esp8266_deauther"
+    },
     "boards": [
-        {"name": "Generic ESP8266"},
-        {"name": "Generic ESP8285"},
-        {"name": "Adafruit Feather HUZZAH"},
-        {"name": "NodeMCU"},
-        {"name": "LOLIN(WEMOS) D1 mini"}
+        {
+            "name": "Generic ESP8266"
+        },
+        {
+            "name": "Generic ESP8285"
+        },
+        {
+            "name": "Adafruit Feather HUZZAH"
+        },
+        {
+            "name": "NodeMCU"
+        },
+        {
+            "name": "LOLIN(WEMOS) D1 mini"
+        },
+        {
+            "name": "Maltronics Deauther"
+        },
+        {
+            "name": "DSTIKE Deauther"
+        }
     ],
     "toolsDependencies": [
         {
