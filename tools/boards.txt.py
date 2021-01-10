@@ -1459,7 +1459,7 @@ macros = {
 
         ('.menu.deauther_config.dstike_watch_v2', 'DSTIKE Deauther Watch V2'),
         ('.menu.deauther_config.dstike_watch_v2.build.config_flags',
-         '-DDSTIKE_DEAUTHER_WATCH V2'),
+         '-DDSTIKE_DEAUTHER_WATCH_V2'),
 
         ('.menu.deauther_config.dstike_mini', 'DSTIKE Deauther Mini'),
         ('.menu.deauther_config.dstike_mini.build.config_flags',
@@ -1588,7 +1588,7 @@ macros = {
 
         ('.menu.deauther_config.dstike_watch_v2', 'DSTIKE Deauther Watch V2'),
         ('.menu.deauther_config.dstike_watch_v2.build.config_flags',
-         '-DDSTIKE_DEAUTHER_WATCH V2'),
+         '-DDSTIKE_DEAUTHER_WATCH_V2'),
 
         ('.menu.deauther_config.dstike_mini', 'DSTIKE Deauther Mini'),
         ('.menu.deauther_config.dstike_mini.build.config_flags',
