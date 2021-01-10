@@ -234,3 +234,13 @@ LOLIN(WEMOS) D1 mini
 
 Product page: https://www.wemos.cc/
 
+Maltronics Deauther
+-------------------
+
+Product page: https://maltronics.com/collections/deauthers
+
+DSTIKE Deauther
+---------------
+
+Product page: https://dstike.com/collections/all/deauther#MainContent
+

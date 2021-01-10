@@ -40,7 +40,7 @@ import getopt
 import re
 import json
 
-requiredboards = [ 'generic', 'esp8285' ]
+requiredboards = ['generic', 'esp8285']
 
 ################################################################
 # serial upload speed order in menu
@@ -48,21 +48,21 @@ requiredboards = [ 'generic', 'esp8285' ]
 # or by user command line
 
 speeds = collections.OrderedDict([
-    (  '57',  [ 's57',  's115', 's230', 's256', 's460', 's512', 's921', 's3000' ]),
-    ( '115',  [ 's115', 's57',  's230', 's256', 's460', 's512', 's921', 's3000' ]),
-    ( '230',  [ 's230', 's57',  's115', 's256', 's460', 's512', 's921', 's3000' ]),
-    ( '256',  [ 's256', 's57',  's115', 's230', 's460', 's512', 's921', 's3000' ]),
-    ( '460',  [ 's460', 's57',  's115', 's230', 's256', 's512', 's921', 's3000' ]),
-    ( '512',  [ 's512', 's57',  's115', 's230', 's256', 's460', 's921', 's3000' ]),
-    ( '921',  [ 's921', 's57',  's115', 's230', 's256', 's460', 's512', 's3000' ]),
-    ( '3000', [ 's3000','s57',  's115', 's230', 's256', 's460', 's512', 's921'  ]),
-    ])
+    ('57',  ['s57',  's115', 's230', 's256', 's460', 's512', 's921', 's3000']),
+    ('115',  ['s115', 's57',  's230', 's256', 's460', 's512', 's921', 's3000']),
+    ('230',  ['s230', 's57',  's115', 's256', 's460', 's512', 's921', 's3000']),
+    ('256',  ['s256', 's57',  's115', 's230', 's460', 's512', 's921', 's3000']),
+    ('460',  ['s460', 's57',  's115', 's230', 's256', 's512', 's921', 's3000']),
+    ('512',  ['s512', 's57',  's115', 's230', 's256', 's460', 's921', 's3000']),
+    ('921',  ['s921', 's57',  's115', 's230', 's256', 's460', 's512', 's3000']),
+    ('3000', ['s3000', 's57',  's115', 's230', 's256', 's460', 's512', 's921']),
+])
 
 ################################################################
 # boards list
 
 boards = collections.OrderedDict([
-    
+
     # ( 'espduino', {
     #     'name': 'ESPDuino (ESP-13 Module)',
     #     'opts': collections.OrderedDict([
@@ -574,7 +574,7 @@ boards = collections.OrderedDict([
     #         'More details at https://shop.makestro.com/product/espectrocore/',
     #     ],
     # }),
-	# ( 'eduinowifi', {
+    # ( 'eduinowifi', {
     #     'name': 'Schirmilabs Eduino WiFi',
     #     'opts': {
     #         '.build.board': 'ESP8266_SCHIRMILABS_EDUINO_WIFI',
@@ -588,9 +588,9 @@ boards = collections.OrderedDict([
     #         ],
     #     'serial': '512',
     #     'desc': [ 'Eduino WiFi is an Arduino-compatible DIY WiFi development board using an ESP-12 module',
-	# 	          '',
-	# 			  'Product page: https://schirmilabs.de/?page_id=165',
-	# 			  ]
+    # 	          '',
+    # 			  'Product page: https://schirmilabs.de/?page_id=165',
+    # 			  ]
 
     # }),
     # ( 'sonoff', {
@@ -664,12 +664,13 @@ boards = collections.OrderedDict([
     #     ],
     # })
 
-    ( 'generic', {
+    ('generic', {
         'name': 'Generic ESP8266',
         'opts': {
             '.build.board': 'ESP8266_GENERIC',
-            },
+        },
         'macro': [
+            'deauther_config_menu',
             'resetmethod_menu',
             'resetmethod_menu_extra',
             'crystalfreq_menu',
@@ -677,219 +678,220 @@ boards = collections.OrderedDict([
             'flashmode_menu',
             '1M', '2M', '4M', '8M', '16M', '512K',
             'led',
-            #'sdk',
-            'cpufreq_menu', 
-            'vtable_menu', 
-            'exception_menu', 
+            # 'sdk',
+            'cpufreq_menu',
+            'vtable_menu',
+            'exception_menu',
             'ssl_cipher_menu',
             'debug_menu',
             'lwip2',
             'lwip',
-            ],
-        'desc': [ 'These modules come in different form factors and pinouts. See the page at ESP8266 community wiki for more info: `ESP8266 Module Family <http://www.esp8266.com/wiki/doku.php?id=esp8266-module-family>`__.',
-                  '',
-                  'Usually these modules have no bootstapping resistors on board, insufficient decoupling capacitors, no voltage regulator, no reset circuit, and no USB-serial adapter. This makes using them somewhat tricky, compared to development boards which add these features.',
-                  '',
-                  'In order to use these modules, make sure to observe the following:',
-                  '',
-                  '-  **Provide sufficient power to the module.** For stable use of the ESP8266 a power supply with 3.3V and >= 250mA is required. Using the power available from USB to Serial adapter is not recommended, these adapters typically do not supply enough current to run ESP8266 reliably in every situation. An external supply or regulator alongwith filtering capacitors is preferred.',
-                  '',
-                  '-  **Connect bootstapping resistors** to GPIO0, GPIO2, GPIO15 according to the schematics below.',
-                  '',
-                  '-  **Put ESP8266 into bootloader mode** before uploading code.',
-                  '',
-                  'Serial Adapter',
-                  '--------------',
-                  '',
-                  'There are many different USB to Serial adapters / boards. To be able to put ESP8266 into bootloader mode using serial handshaking lines, you need the adapter which breaks out RTS and DTR outputs. CTS and DSR are not useful for upload (they are inputs). Make sure the adapter can work with 3.3V IO voltage: it should have a jumper or a switch to select between 5V and 3.3V, or be marked as 3.3V only.',
-                  '',
-                  'Adapters based around the following ICs should work:',
-                  '',
-                  '-  FT232RL',
-                  '-  CP2102',
-                  '-  CH340G',
-                  '',
-                  'PL2303-based adapters are known not to work on Mac OS X. See https://github.com/igrr/esptool-ck/issues/9 for more info.',
-                  '',
-                  'Minimal Hardware Setup for Bootloading and Usage',
-                  '------------------------------------------------',
-                  '',
-                  '+-----------------+------------+------------------+',
-                  '| PIN             | Resistor   | Serial Adapter   |',
-                  '+=================+============+==================+',
-                  '| VCC             |            | VCC (3.3V)       |',
-                  '+-----------------+------------+------------------+',
-                  '| GND             |            | GND              |',
-                  '+-----------------+------------+------------------+',
-                  '| TX or GPIO2\*   |            | RX               |',
-                  '+-----------------+------------+------------------+',
-                  '| RX              |            | TX               |',
-                  '+-----------------+------------+------------------+',
-                  '| GPIO0           | PullUp     | DTR              |',
-                  '+-----------------+------------+------------------+',
-                  '| Reset\*         | PullUp     | RTS              |',
-                  '+-----------------+------------+------------------+',
-                  '| GPIO15\*        | PullDown   |                  |',
-                  '+-----------------+------------+------------------+',
-                  '| CH\_PD          | PullUp     |                  |',
-                  '+-----------------+------------+------------------+',
-                  '',
-                  '-  Note',
-                  '-  GPIO15 is also named MTDO',
-                  '-  Reset is also named RSBT or REST (adding PullUp improves the',
-                  '   stability of the module)',
-                  '-  GPIO2 is alternative TX for the boot loader mode',
-                  '-  **Directly connecting a pin to VCC or GND is not a substitute for a',
-                  '   PullUp or PullDown resistor, doing this can break upload management',
-                  '   and the serial console, instability has also been noted in some',
-                  '   cases.**',
-                  '',
-                  'ESP to Serial',
-                  '-------------',
-                  '',
-                  '.. figure:: ESP_to_serial.png',
-                  '   :alt: ESP to Serial',
-                  '',
-                  '   ESP to Serial',
-                  '',
-                  'Minimal Hardware Setup for Bootloading only',
-                  '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-                  '',
-                  'ESPxx Hardware',
-                  '',
-                  '+---------------+------------+------------------+',
-                  '| PIN           | Resistor   | Serial Adapter   |',
-                  '+===============+============+==================+',
-                  '| VCC           |            | VCC (3.3V)       |',
-                  '+---------------+------------+------------------+',
-                  '| GND           |            | GND              |',
-                  '+---------------+------------+------------------+',
-                  '| TX or GPIO2   |            | RX               |',
-                  '+---------------+------------+------------------+',
-                  '| RX            |            | TX               |',
-                  '+---------------+------------+------------------+',
-                  '| GPIO0         |            | GND              |',
-                  '+---------------+------------+------------------+',
-                  '| Reset         |            | RTS\*            |',
-                  '+---------------+------------+------------------+',
-                  '| GPIO15        | PullDown   |                  |',
-                  '+---------------+------------+------------------+',
-                  '| CH\_PD        | PullUp     |                  |',
-                  '+---------------+------------+------------------+',
-                  '',
-                  '-  Note',
-                  '-  if no RTS is used a manual power toggle is needed',
-                  '',
-                  'Minimal Hardware Setup for Running only',
-                  '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
-                  '',
-                  'ESPxx Hardware',
-                  '',
-                  '+----------+------------+----------------+',
-                  '| PIN      | Resistor   | Power supply   |',
-                  '+==========+============+================+',
-                  '| VCC      |            | VCC (3.3V)     |',
-                  '+----------+------------+----------------+',
-                  '| GND      |            | GND            |',
-                  '+----------+------------+----------------+',
-                  '| GPIO0    | PullUp     |                |',
-                  '+----------+------------+----------------+',
-                  '| GPIO15   | PullDown   |                |',
-                  '+----------+------------+----------------+',
-                  '| CH\_PD   | PullUp     |                |',
-                  '+----------+------------+----------------+',
-                  '',
-                  'Minimal',
-                  '-------',
-                  '',
-                  '.. figure:: ESP_min.png',
-                  '   :alt: ESP min',
-                  '',
-                  '   ESP min',
-                  '',
-                  'Improved Stability',
-                  '------------------',
-                  '',
-                  '.. figure:: ESP_improved_stability.png',
-                  '   :alt: ESP improved stability',
-                  '',
-                  '   ESP improved stability',
-                  '',
-                  'Boot Messages and Modes',
-                  '-----------------------',
-                  '',
-                  'The ESP module checks at every boot the Pins 0, 2 and 15. based on them its boots in different modes:',
-                  '',
-                  '+----------+---------+---------+------------------------------------+',
-                  '| GPIO15   | GPIO0   | GPIO2   | Mode                               |',
-                  '+==========+=========+=========+====================================+',
-                  '| 0V       | 0V      | 3.3V    | Uart Bootloader                    |',
-                  '+----------+---------+---------+------------------------------------+',
-                  '| 0V       | 3.3V    | 3.3V    | Boot sketch (SPI flash)            |',
-                  '+----------+---------+---------+------------------------------------+',
-                  '| 3.3V     | x       | x       | SDIO mode (not used for Arduino)   |',
-                  '+----------+---------+---------+------------------------------------+',
-                  '',
-                  'at startup the ESP prints out the current boot mode example:',
-                  '',
-                  '::',
-                  '',
-                  '    rst cause:2, boot mode:(3,6)',
-                  '',
-                  'note: - GPIO2 is used as TX output and the internal Pullup is enabled on boot.',
-                  '',
-                  'rst cause',
-                  '~~~~~~~~~',
-                  '',
-                  '+----------+------------------+',
-                  '| Number   | Description      |',
-                  '+==========+==================+',
-                  '| 0        | unknown          |',
-                  '+----------+------------------+',
-                  '| 1        | normal boot      |',
-                  '+----------+------------------+',
-                  '| 2        | reset pin        |',
-                  '+----------+------------------+',
-                  '| 3        | software reset   |',
-                  '+----------+------------------+',
-                  '| 4        | watchdog reset   |',
-                  '+----------+------------------+',
-                  '',
-                  'boot mode',
-                  '~~~~~~~~~',
-                  '',
-                  'the first value respects the pin setup of the Pins 0, 2 and 15.',
-                  '',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| Number   | GPIO15   | GPIO0   | GPIO2   | Mode        |',
-                  '+==========+==========+=========+=========+=============+',
-                  '| 0        | 0V       | 0V      | 0V      | Not valid   |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 1        | 0V       | 0V      | 3.3V    | Uart        |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 2        | 0V       | 3.3V    | 0V      | Not valid   |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 3        | 0V       | 3.3V    | 3.3V    | Flash       |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 4        | 3.3V     | 0V      | 0V      | SDIO        |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 5        | 3.3V     | 0V      | 3.3V    | SDIO        |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 6        | 3.3V     | 3.3V    | 0V      | SDIO        |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '| 7        | 3.3V     | 3.3V    | 3.3V    | SDIO        |',
-                  '+----------+----------+---------+---------+-------------+',
-                  '',
-                  'note: - number = ((GPIO15 << 2) \| (GPIO0 << 1) \| GPIO2);',
-                  ],
+        ],
+        'desc': ['These modules come in different form factors and pinouts. See the page at ESP8266 community wiki for more info: `ESP8266 Module Family <http://www.esp8266.com/wiki/doku.php?id=esp8266-module-family>`__.',
+                 '',
+                 'Usually these modules have no bootstapping resistors on board, insufficient decoupling capacitors, no voltage regulator, no reset circuit, and no USB-serial adapter. This makes using them somewhat tricky, compared to development boards which add these features.',
+                 '',
+                 'In order to use these modules, make sure to observe the following:',
+                 '',
+                 '-  **Provide sufficient power to the module.** For stable use of the ESP8266 a power supply with 3.3V and >= 250mA is required. Using the power available from USB to Serial adapter is not recommended, these adapters typically do not supply enough current to run ESP8266 reliably in every situation. An external supply or regulator alongwith filtering capacitors is preferred.',
+                 '',
+                 '-  **Connect bootstapping resistors** to GPIO0, GPIO2, GPIO15 according to the schematics below.',
+                 '',
+                 '-  **Put ESP8266 into bootloader mode** before uploading code.',
+                 '',
+                 'Serial Adapter',
+                 '--------------',
+                 '',
+                 'There are many different USB to Serial adapters / boards. To be able to put ESP8266 into bootloader mode using serial handshaking lines, you need the adapter which breaks out RTS and DTR outputs. CTS and DSR are not useful for upload (they are inputs). Make sure the adapter can work with 3.3V IO voltage: it should have a jumper or a switch to select between 5V and 3.3V, or be marked as 3.3V only.',
+                 '',
+                 'Adapters based around the following ICs should work:',
+                 '',
+                 '-  FT232RL',
+                 '-  CP2102',
+                 '-  CH340G',
+                 '',
+                 'PL2303-based adapters are known not to work on Mac OS X. See https://github.com/igrr/esptool-ck/issues/9 for more info.',
+                 '',
+                 'Minimal Hardware Setup for Bootloading and Usage',
+                 '------------------------------------------------',
+                 '',
+                 '+-----------------+------------+------------------+',
+                 '| PIN             | Resistor   | Serial Adapter   |',
+                 '+=================+============+==================+',
+                 '| VCC             |            | VCC (3.3V)       |',
+                 '+-----------------+------------+------------------+',
+                 '| GND             |            | GND              |',
+                 '+-----------------+------------+------------------+',
+                 '| TX or GPIO2\*   |            | RX               |',
+                 '+-----------------+------------+------------------+',
+                 '| RX              |            | TX               |',
+                 '+-----------------+------------+------------------+',
+                 '| GPIO0           | PullUp     | DTR              |',
+                 '+-----------------+------------+------------------+',
+                 '| Reset\*         | PullUp     | RTS              |',
+                 '+-----------------+------------+------------------+',
+                 '| GPIO15\*        | PullDown   |                  |',
+                 '+-----------------+------------+------------------+',
+                 '| CH\_PD          | PullUp     |                  |',
+                 '+-----------------+------------+------------------+',
+                 '',
+                 '-  Note',
+                 '-  GPIO15 is also named MTDO',
+                 '-  Reset is also named RSBT or REST (adding PullUp improves the',
+                 '   stability of the module)',
+                 '-  GPIO2 is alternative TX for the boot loader mode',
+                 '-  **Directly connecting a pin to VCC or GND is not a substitute for a',
+                 '   PullUp or PullDown resistor, doing this can break upload management',
+                 '   and the serial console, instability has also been noted in some',
+                 '   cases.**',
+                 '',
+                 'ESP to Serial',
+                 '-------------',
+                 '',
+                 '.. figure:: ESP_to_serial.png',
+                 '   :alt: ESP to Serial',
+                 '',
+                 '   ESP to Serial',
+                 '',
+                 'Minimal Hardware Setup for Bootloading only',
+                 '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+                 '',
+                 'ESPxx Hardware',
+                 '',
+                 '+---------------+------------+------------------+',
+                 '| PIN           | Resistor   | Serial Adapter   |',
+                 '+===============+============+==================+',
+                 '| VCC           |            | VCC (3.3V)       |',
+                 '+---------------+------------+------------------+',
+                 '| GND           |            | GND              |',
+                 '+---------------+------------+------------------+',
+                 '| TX or GPIO2   |            | RX               |',
+                 '+---------------+------------+------------------+',
+                 '| RX            |            | TX               |',
+                 '+---------------+------------+------------------+',
+                 '| GPIO0         |            | GND              |',
+                 '+---------------+------------+------------------+',
+                 '| Reset         |            | RTS\*            |',
+                 '+---------------+------------+------------------+',
+                 '| GPIO15        | PullDown   |                  |',
+                 '+---------------+------------+------------------+',
+                 '| CH\_PD        | PullUp     |                  |',
+                 '+---------------+------------+------------------+',
+                 '',
+                 '-  Note',
+                 '-  if no RTS is used a manual power toggle is needed',
+                 '',
+                 'Minimal Hardware Setup for Running only',
+                 '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~',
+                 '',
+                 'ESPxx Hardware',
+                 '',
+                 '+----------+------------+----------------+',
+                 '| PIN      | Resistor   | Power supply   |',
+                 '+==========+============+================+',
+                 '| VCC      |            | VCC (3.3V)     |',
+                 '+----------+------------+----------------+',
+                 '| GND      |            | GND            |',
+                 '+----------+------------+----------------+',
+                 '| GPIO0    | PullUp     |                |',
+                 '+----------+------------+----------------+',
+                 '| GPIO15   | PullDown   |                |',
+                 '+----------+------------+----------------+',
+                 '| CH\_PD   | PullUp     |                |',
+                 '+----------+------------+----------------+',
+                 '',
+                 'Minimal',
+                 '-------',
+                 '',
+                 '.. figure:: ESP_min.png',
+                 '   :alt: ESP min',
+                 '',
+                 '   ESP min',
+                 '',
+                 'Improved Stability',
+                 '------------------',
+                 '',
+                 '.. figure:: ESP_improved_stability.png',
+                 '   :alt: ESP improved stability',
+                 '',
+                 '   ESP improved stability',
+                 '',
+                 'Boot Messages and Modes',
+                 '-----------------------',
+                 '',
+                 'The ESP module checks at every boot the Pins 0, 2 and 15. based on them its boots in different modes:',
+                 '',
+                 '+----------+---------+---------+------------------------------------+',
+                 '| GPIO15   | GPIO0   | GPIO2   | Mode                               |',
+                 '+==========+=========+=========+====================================+',
+                 '| 0V       | 0V      | 3.3V    | Uart Bootloader                    |',
+                 '+----------+---------+---------+------------------------------------+',
+                 '| 0V       | 3.3V    | 3.3V    | Boot sketch (SPI flash)            |',
+                 '+----------+---------+---------+------------------------------------+',
+                 '| 3.3V     | x       | x       | SDIO mode (not used for Arduino)   |',
+                 '+----------+---------+---------+------------------------------------+',
+                 '',
+                 'at startup the ESP prints out the current boot mode example:',
+                 '',
+                 '::',
+                 '',
+                 '    rst cause:2, boot mode:(3,6)',
+                 '',
+                 'note: - GPIO2 is used as TX output and the internal Pullup is enabled on boot.',
+                 '',
+                 'rst cause',
+                 '~~~~~~~~~',
+                 '',
+                 '+----------+------------------+',
+                 '| Number   | Description      |',
+                 '+==========+==================+',
+                 '| 0        | unknown          |',
+                 '+----------+------------------+',
+                 '| 1        | normal boot      |',
+                 '+----------+------------------+',
+                 '| 2        | reset pin        |',
+                 '+----------+------------------+',
+                 '| 3        | software reset   |',
+                 '+----------+------------------+',
+                 '| 4        | watchdog reset   |',
+                 '+----------+------------------+',
+                 '',
+                 'boot mode',
+                 '~~~~~~~~~',
+                 '',
+                 'the first value respects the pin setup of the Pins 0, 2 and 15.',
+                 '',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| Number   | GPIO15   | GPIO0   | GPIO2   | Mode        |',
+                 '+==========+==========+=========+=========+=============+',
+                 '| 0        | 0V       | 0V      | 0V      | Not valid   |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 1        | 0V       | 0V      | 3.3V    | Uart        |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 2        | 0V       | 3.3V    | 0V      | Not valid   |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 3        | 0V       | 3.3V    | 3.3V    | Flash       |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 4        | 3.3V     | 0V      | 0V      | SDIO        |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 5        | 3.3V     | 0V      | 3.3V    | SDIO        |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 6        | 3.3V     | 3.3V    | 0V      | SDIO        |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '| 7        | 3.3V     | 3.3V    | 3.3V    | SDIO        |',
+                 '+----------+----------+---------+---------+-------------+',
+                 '',
+                 'note: - number = ((GPIO15 << 2) \| (GPIO0 << 1) \| GPIO2);',
+                 ],
     }),
-    ( 'esp8285', {
+    ('esp8285', {
         'name': 'Generic ESP8285',
         'opts': {
             '.build.board': 'ESP8266_ESP01',
             '.build.variant': 'esp8285'
-            },
+        },
         'macro': [
+            'deauther_config_menu',
             'resetmethod_menu',
             'resetmethod_menu_extra',
             'crystalfreq_menu',
@@ -897,382 +899,738 @@ boards = collections.OrderedDict([
             'flashfreq_40',
             '1M', '2M',
             'led',
-            'cpufreq_menu', 
-            'vtable_menu', 
-            'exception_menu', 
+            'cpufreq_menu',
+            'vtable_menu',
+            'exception_menu',
             'ssl_cipher_menu',
             'debug_menu',
             'lwip2',
             'lwip',
-            ],
-        'desc': [ 'ESP8285 (`datasheet <http://www.espressif.com/sites/default/files/0a-esp8285_datasheet_en_v1.0_20160422.pdf>`__) is a multi-chip package which contains ESP8266 and 1MB flash. All points related to bootstrapping resistors and recommended circuits listed above apply to ESP8285 as well.',
-                  '',
-                  'Note that since ESP8285 has SPI flash memory internally connected in DOUT mode, pins 9 and 10 may be used as GPIO / I2C / PWM pins.',
-                  ],
+        ],
+        'desc': ['ESP8285 (`datasheet <http://www.espressif.com/sites/default/files/0a-esp8285_datasheet_en_v1.0_20160422.pdf>`__) is a multi-chip package which contains ESP8266 and 1MB flash. All points related to bootstrapping resistors and recommended circuits listed above apply to ESP8285 as well.',
+                 '',
+                 'Note that since ESP8285 has SPI flash memory internally connected in DOUT mode, pins 9 and 10 may be used as GPIO / I2C / PWM pins.',
+                 ],
     }),
-    ( 'huzzah', {
+    ('huzzah', {
         'name': 'Adafruit Feather HUZZAH',
         'opts': {
             '.build.board': 'ESP8266_ESP12',
             '.build.variant': 'adafruit',
-            },
+        },
         'macro': [
+            'deauther_config_menu',
             'resetmethod_nodemcu',
             'flashmode_qio',
             'flashfreq_40',
             '4M',
-            'cpufreq_160', 
-            'vtable_flash', 
-            'exception_legacy', 
+            'cpufreq_160',
+            'vtable_flash',
+            'exception_legacy',
             'ssl_cipher_all',
             'debug_none',
             'lwip_v2_higher_bandwidth',
-            ],
-        'desc': [ 'The Adafruit Feather HUZZAH ESP8266 is an Arduino-compatible Wi-Fi development board powered by Ai-Thinker\'s ESP-12S, clocked at 80 MHz at 3.3V logic. A high-quality SiLabs CP2104 USB-Serial chip is included so that you can upload code at a blistering 921600 baud for fast development time. It also has auto-reset so no noodling with pins and reset button pressings. A 3.7V Lithium polymer battery connector is included, making it ideal for portable projects. The Adafruit Feather HUZZAH ESP8266 will automatically recharge a connected battery when USB power is available.',
-                  '',
-                  'Product page: https://www.adafruit.com/product/2821'
-                  ],
+        ],
+        'desc': ['The Adafruit Feather HUZZAH ESP8266 is an Arduino-compatible Wi-Fi development board powered by Ai-Thinker\'s ESP-12S, clocked at 80 MHz at 3.3V logic. A high-quality SiLabs CP2104 USB-Serial chip is included so that you can upload code at a blistering 921600 baud for fast development time. It also has auto-reset so no noodling with pins and reset button pressings. A 3.7V Lithium polymer battery connector is included, making it ideal for portable projects. The Adafruit Feather HUZZAH ESP8266 will automatically recharge a connected battery when USB power is available.',
+                 '',
+                 'Product page: https://www.adafruit.com/product/2821'
+                 ],
     }),
-    ( 'nodemcuv2', {
+    ('nodemcuv2', {
         'name': 'NodeMCU',
         'opts': {
             '.build.board': 'ESP8266_NODEMCU',
             '.build.variant': 'nodemcu',
-            },
+        },
         'macro': [
+            'deauther_config_nodemcu',
             'resetmethod_nodemcu',
             'flashmode_dio',
             'flashfreq_40',
             '4M',
-            #'led216',
-            'cpufreq_160', 
-            'vtable_flash', 
-            'exception_legacy', 
+            # 'led216',
+            'cpufreq_160',
+            'vtable_flash',
+            'exception_legacy',
             'ssl_cipher_all',
             'debug_none',
             'lwip_v2_higher_bandwidth',
-            ],
-        'desc': [ 'This module is sold under many names for around $6.50 on AliExpress and it\'s one of the cheapest, fully integrated ESP8266 solutions.',
-                  '',
-                  'It\'s an open hardware design with an ESP-12E core and 4 MB of SPI flash.',
-                  '',
-                  'According to the manufacturer, "with a micro USB cable, you can connect NodeMCU devkit to your laptop and flash it without any trouble". This is more or less true: the board comes with a CP2102 onboard USB to serial adapter which just works, well, the majority of the time. Sometimes flashing fails and you have to reset the board by holding down FLASH +',
-                  'RST, then releasing FLASH, then releasing RST. This forces the CP2102 device to power cycle and to be re-numbered by Linux.',
-                  '',
-                  'The board also features a NCP1117 voltage regulator, a blue LED on GPIO16 and a 220k/100k Ohm voltage divider on the ADC input pin.',
-                  'The ESP-12E usually has a led connected on GPIO2.',
-                  '',
-                  'Full pinout and PDF schematics can be found `here <https://github.com/nodemcu/nodemcu-devkit-v1.0>`__',
-                  ],
+        ],
+        'desc': ['This module is sold under many names for around $6.50 on AliExpress and it\'s one of the cheapest, fully integrated ESP8266 solutions.',
+                 '',
+                 'It\'s an open hardware design with an ESP-12E core and 4 MB of SPI flash.',
+                 '',
+                 'According to the manufacturer, "with a micro USB cable, you can connect NodeMCU devkit to your laptop and flash it without any trouble". This is more or less true: the board comes with a CP2102 onboard USB to serial adapter which just works, well, the majority of the time. Sometimes flashing fails and you have to reset the board by holding down FLASH +',
+                 'RST, then releasing FLASH, then releasing RST. This forces the CP2102 device to power cycle and to be re-numbered by Linux.',
+                 '',
+                 'The board also features a NCP1117 voltage regulator, a blue LED on GPIO16 and a 220k/100k Ohm voltage divider on the ADC input pin.',
+                 'The ESP-12E usually has a led connected on GPIO2.',
+                 '',
+                 'Full pinout and PDF schematics can be found `here <https://github.com/nodemcu/nodemcu-devkit-v1.0>`__',
+                 ],
     }),
-    ( 'd1_mini', {
+    ('d1_mini', {
         'name': 'LOLIN(WEMOS) D1 mini',
         'opts': {
             '.build.board': 'ESP8266_WEMOS_D1MINI',
             '.build.variant': 'd1_mini',
-            },
+        },
         'macro': [
+            'deauther_config_d1mini',
             'resetmethod_nodemcu',
             'flashmode_dio',
             'flashfreq_40',
-            '1M','4M','16M',
-            'cpufreq_160', 
-            'vtable_flash', 
-            'exception_legacy', 
+            '1M', '4M', '16M',
+            'cpufreq_160',
+            'vtable_flash',
+            'exception_legacy',
             'ssl_cipher_all',
             'debug_none',
             'lwip_v2_higher_bandwidth',
-            ],
+        ],
         'serial': '921',
-        'desc': [ 'Product page: https://www.wemos.cc/' ],
+        'desc': ['Product page: https://www.wemos.cc/'],
+    }),
+    ('maltronics_deauther', {
+        'name': 'Maltronics Deauther',
+        'opts': {
+            '.build.board': 'ESP8266_MALTRONICS',
+            '.build.variant': 'maltronics',
+        },
+        'macro': [
+            'deauther_config_maltronics',
+            'resetmethod_nodemcu',
+            'flashmode_dio',
+            'flashfreq_40',
+            '4M', '2M',
+            'cpufreq_160',
+            'vtable_flash',
+            'exception_legacy',
+            'ssl_cipher_all',
+            'debug_none',
+            'lwip_v2_higher_bandwidth',
+        ],
+        'serial': '921',
+        'desc': ['Product page: https://maltronics.com/collections/deauthers'],
+    }),
+    ('dstike_deauther', {
+        'name': 'DSTIKE Deauther',
+        'opts': {
+            '.build.board': 'ESP8266_DSTIKE',
+            '.build.variant': 'dstike',
+        },
+        'macro': [
+            'deauther_config_dstike',
+            'resetmethod_nodemcu',
+            'flashmode_dio',
+            'flashfreq_40',
+            '4M', '2M',
+            'cpufreq_160',
+            'vtable_flash',
+            'exception_legacy',
+            'ssl_cipher_all',
+            'debug_none',
+            'lwip_v2_higher_bandwidth',
+        ],
+        'serial': '921',
+        'desc': ['Product page: https://dstike.com/collections/all/deauther#MainContent'],
     }),
 
-	])
-    
+])
+
 
 ################################################################
 
 macros = {
     'defaults': collections.OrderedDict([
-        ( '.upload.tool', 'esptool' ),
-        ( '.upload.maximum_data_size', '81920' ),
-        ( '.upload.wait_for_upload_port', 'true' ),
-        ( '.upload.erase_cmd', ''),
-        ( '.serial.disableDTR', 'true' ),
-        ( '.serial.disableRTS', 'true' ),
-        ( '.build.mcu', 'esp8266' ),
-        ( '.build.core', 'esp8266' ),
-        ( '.build.variant', 'generic' ),
-        ( '.build.spiffs_pagesize', '256' ),
-        ( '.build.debug_port', '' ),
-        ( '.build.debug_level', '' ),
-        ]),
+        ('.upload.tool', 'esptool'),
+        ('.upload.maximum_data_size', '81920'),
+        ('.upload.wait_for_upload_port', 'true'),
+        ('.upload.erase_cmd', ''),
+        ('.serial.disableDTR', 'true'),
+        ('.serial.disableRTS', 'true'),
+        ('.build.mcu', 'esp8266'),
+        ('.build.core', 'esp8266'),
+        ('.build.variant', 'generic'),
+        ('.build.spiffs_pagesize', '256'),
+        ('.build.debug_port', ''),
+        ('.build.debug_level', ''),
+    ]),
 
     #######################
 
     'cpufreq_menu': collections.OrderedDict([
-        ( '.menu.xtal.160', '160 MHz' ),
-        ( '.menu.xtal.160.build.f_cpu', '160000000L' ),
-        ( '.menu.xtal.80', '80 MHz' ),
-        ( '.menu.xtal.80.build.f_cpu', '80000000L' ),
-        ]),
-    
+        ('.menu.xtal.160', '160 MHz'),
+        ('.menu.xtal.160.build.f_cpu', '160000000L'),
+        ('.menu.xtal.80', '80 MHz'),
+        ('.menu.xtal.80.build.f_cpu', '80000000L'),
+    ]),
+
     'cpufreq_160': collections.OrderedDict([
-        ( '.build.f_cpu', '160000000L' ),
-        ]),
+        ('.build.f_cpu', '160000000L'),
+    ]),
 
     'vtable_menu': collections.OrderedDict([
-        ( '.menu.vt.flash', 'Flash'),
-        ( '.menu.vt.flash.build.vtable_flags', '-DVTABLES_IN_FLASH'),
-        ( '.menu.vt.heap', 'Heap'),
-        ( '.menu.vt.heap.build.vtable_flags', '-DVTABLES_IN_DRAM'),
-        ( '.menu.vt.iram', 'IRAM'),
-        ( '.menu.vt.iram.build.vtable_flags', '-DVTABLES_IN_IRAM'),
-        ]),
+        ('.menu.vt.flash', 'Flash'),
+        ('.menu.vt.flash.build.vtable_flags', '-DVTABLES_IN_FLASH'),
+        ('.menu.vt.heap', 'Heap'),
+        ('.menu.vt.heap.build.vtable_flags', '-DVTABLES_IN_DRAM'),
+        ('.menu.vt.iram', 'IRAM'),
+        ('.menu.vt.iram.build.vtable_flags', '-DVTABLES_IN_IRAM'),
+    ]),
 
     'vtable_flash': collections.OrderedDict([
-        ( '.build.vtable_flags', '-DVTABLES_IN_FLASH'),
-        ]),
+        ('.build.vtable_flags', '-DVTABLES_IN_FLASH'),
+    ]),
 
     'exception_menu': collections.OrderedDict([
-        ( '.menu.exception.legacy', 'Legacy (new can return nullptr)' ),
-        ( '.menu.exception.legacy.build.exception_flags', '-fno-exceptions' ),
-        ( '.menu.exception.legacy.build.stdcpp_lib', '-lstdc++' ),
-        ( '.menu.exception.disabled', 'Disabled (new can abort)' ),
-        ( '.menu.exception.disabled.build.exception_flags', '-fno-exceptions -DNEW_OOM_ABORT' ),
-        ( '.menu.exception.disabled.build.stdcpp_lib', '-lstdc++' ),
-        ( '.menu.exception.enabled', 'Enabled' ),
-        ( '.menu.exception.enabled.build.exception_flags', '-fexceptions' ),
-        ( '.menu.exception.enabled.build.stdcpp_lib', '-lstdc++-exc' ),
-        ]),
-    
+        ('.menu.exception.legacy', 'Legacy (new can return nullptr)'),
+        ('.menu.exception.legacy.build.exception_flags', '-fno-exceptions'),
+        ('.menu.exception.legacy.build.stdcpp_lib', '-lstdc++'),
+        ('.menu.exception.disabled', 'Disabled (new can abort)'),
+        ('.menu.exception.disabled.build.exception_flags',
+         '-fno-exceptions -DNEW_OOM_ABORT'),
+        ('.menu.exception.disabled.build.stdcpp_lib', '-lstdc++'),
+        ('.menu.exception.enabled', 'Enabled'),
+        ('.menu.exception.enabled.build.exception_flags', '-fexceptions'),
+        ('.menu.exception.enabled.build.stdcpp_lib', '-lstdc++-exc'),
+    ]),
+
     'exception_legacy': collections.OrderedDict([
-        ( '.build.exception_flags', '-fno-exceptions' ),
-        ]),
+        ('.build.exception_flags', '-fno-exceptions'),
+    ]),
 
     'crystalfreq_menu': collections.OrderedDict([
-        ( '.menu.CrystalFreq.26', '26 MHz' ),
-        ( '.menu.CrystalFreq.40', '40 MHz' ),
-        ( '.menu.CrystalFreq.40.build.extra_flags', '-DF_CRYSTAL=40000000 -DESP8266' ),
-        ]),
+        ('.menu.CrystalFreq.26', '26 MHz'),
+        ('.menu.CrystalFreq.40', '40 MHz'),
+        ('.menu.CrystalFreq.40.build.extra_flags',
+         '-DF_CRYSTAL=40000000 -DESP8266'),
+    ]),
 
     'flashfreq_menu': collections.OrderedDict([
-        ( '.menu.FlashFreq.40', '40MHz' ),
-        ( '.menu.FlashFreq.40.build.flash_freq', '40' ),
-        ( '.menu.FlashFreq.80', '80MHz' ),
-        ( '.menu.FlashFreq.80.build.flash_freq', '80' ),
-        ( '.menu.FlashFreq.20', '20MHz' ),
-        ( '.menu.FlashFreq.20.build.flash_freq', '20' ),
-        ( '.menu.FlashFreq.26', '26MHz' ),
-        ( '.menu.FlashFreq.26.build.flash_freq', '26' ),
-        ]),
+        ('.menu.FlashFreq.40', '40MHz'),
+        ('.menu.FlashFreq.40.build.flash_freq', '40'),
+        ('.menu.FlashFreq.80', '80MHz'),
+        ('.menu.FlashFreq.80.build.flash_freq', '80'),
+        ('.menu.FlashFreq.20', '20MHz'),
+        ('.menu.FlashFreq.20.build.flash_freq', '20'),
+        ('.menu.FlashFreq.26', '26MHz'),
+        ('.menu.FlashFreq.26.build.flash_freq', '26'),
+    ]),
 
     'flashfreq_40': collections.OrderedDict([
-        ( '.build.flash_freq', '40' ),
-        ]),
+        ('.build.flash_freq', '40'),
+    ]),
 
     'flashfreq_80': collections.OrderedDict([
-        ( '.build.flash_freq', '80' ),
-        ]),
+        ('.build.flash_freq', '80'),
+    ]),
 
-    ####################### menu.resetmethod
+    # menu.resetmethod
 
     'resetmethod_menu': collections.OrderedDict([
-        ( '.menu.ResetMethod.nodemcu', 'dtr (aka nodemcu)' ),
-        ( '.menu.ResetMethod.nodemcu.upload.resetmethod', '--before default_reset --after hard_reset' ),
-        ( '.menu.ResetMethod.ck', 'no dtr (aka ck)' ),
-        ( '.menu.ResetMethod.ck.upload.resetmethod', '--before no_reset --after soft_reset' ),
-        ]),
+        ('.menu.ResetMethod.nodemcu', 'dtr (aka nodemcu)'),
+        ('.menu.ResetMethod.nodemcu.upload.resetmethod',
+         '--before default_reset --after hard_reset'),
+        ('.menu.ResetMethod.ck', 'no dtr (aka ck)'),
+        ('.menu.ResetMethod.ck.upload.resetmethod',
+         '--before no_reset --after soft_reset'),
+    ]),
 
     'resetmethod_menu_extra': collections.OrderedDict([
-        ( '.menu.ResetMethod.nodtr_nosync', 'no dtr, no_sync' ),
-        ( '.menu.ResetMethod.nodtr_nosync.upload.resetmethod', '--before no_reset_no_sync --after soft_reset' ),
-        ]),
+        ('.menu.ResetMethod.nodtr_nosync', 'no dtr, no_sync'),
+        ('.menu.ResetMethod.nodtr_nosync.upload.resetmethod',
+         '--before no_reset_no_sync --after soft_reset'),
+    ]),
 
-    ####################### upload.resetmethod (new esptool.py options)
+    # upload.resetmethod (new esptool.py options)
 
     'resetmethod_ck': collections.OrderedDict([
-        ( '.upload.resetmethod', '--before no_reset --after soft_reset' ),
-        ]),
+        ('.upload.resetmethod', '--before no_reset --after soft_reset'),
+    ]),
 
     'resetmethod_nodemcu': collections.OrderedDict([
-        ( '.upload.resetmethod', '--before default_reset --after hard_reset' ),
-        ]),
+        ('.upload.resetmethod', '--before default_reset --after hard_reset'),
+    ]),
 
     'resetmethod_none': collections.OrderedDict([
-        ( '.upload.resetmethod', '--before no_reset --after soft_reset' ),
-        ]),
+        ('.upload.resetmethod', '--before no_reset --after soft_reset'),
+    ]),
 
     'resetmethod_dtrset': collections.OrderedDict([
-        ( '.upload.resetmethod', '--before default_reset --after hard_reset' ),
-        ]),
+        ('.upload.resetmethod', '--before default_reset --after hard_reset'),
+    ]),
 
     'resetmethod_nodtr_nosync': collections.OrderedDict([
-        ( '.upload.resetmethod', '--before no_reset_no_sync --after soft_reset' ),
-        ]),
+        ('.upload.resetmethod', '--before no_reset_no_sync --after soft_reset'),
+    ]),
 
-    ####################### menu.FlashMode
+    # menu.FlashMode
 
     'flashmode_menu': collections.OrderedDict([
-        ( '.menu.FlashMode.dout', 'DOUT (compatible)' ),
-        ( '.menu.FlashMode.dout.build.flash_mode', 'dout' ),
-        ( '.menu.FlashMode.dout.build.flash_flags', '-DFLASHMODE_DOUT' ),
-        ( '.menu.FlashMode.dio', 'DIO' ),
-        ( '.menu.FlashMode.dio.build.flash_mode', 'dio' ),
-        ( '.menu.FlashMode.dio.build.flash_flags', '-DFLASHMODE_DIO' ),
-        ( '.menu.FlashMode.qout', 'QOUT' ),
-        ( '.menu.FlashMode.qout.build.flash_mode', 'qout' ),
-        ( '.menu.FlashMode.qout.build.flash_flags', '-DFLASHMODE_QOUT' ),
-        ( '.menu.FlashMode.qio', 'QIO (fast)' ),
-        ( '.menu.FlashMode.qio.build.flash_mode', 'qio' ),
-        ( '.menu.FlashMode.qio.build.flash_flags', '-DFLASHMODE_QIO' ),
-        ]),
+        ('.menu.FlashMode.dout', 'DOUT (compatible)'),
+        ('.menu.FlashMode.dout.build.flash_mode', 'dout'),
+        ('.menu.FlashMode.dout.build.flash_flags', '-DFLASHMODE_DOUT'),
+        ('.menu.FlashMode.dio', 'DIO'),
+        ('.menu.FlashMode.dio.build.flash_mode', 'dio'),
+        ('.menu.FlashMode.dio.build.flash_flags', '-DFLASHMODE_DIO'),
+        ('.menu.FlashMode.qout', 'QOUT'),
+        ('.menu.FlashMode.qout.build.flash_mode', 'qout'),
+        ('.menu.FlashMode.qout.build.flash_flags', '-DFLASHMODE_QOUT'),
+        ('.menu.FlashMode.qio', 'QIO (fast)'),
+        ('.menu.FlashMode.qio.build.flash_mode', 'qio'),
+        ('.menu.FlashMode.qio.build.flash_flags', '-DFLASHMODE_QIO'),
+    ]),
 
-    ####################### default flash_mode
+    # default flash_mode
 
     'flashmode_dio': collections.OrderedDict([
-        ( '.build.flash_mode', 'dio' ),
-        ( '.build.flash_flags', '-DFLASHMODE_DIO' ),
-        ]),
+        ('.build.flash_mode', 'dio'),
+        ('.build.flash_flags', '-DFLASHMODE_DIO'),
+    ]),
 
     'flashmode_qio': collections.OrderedDict([
-        ( '.build.flash_mode', 'qio' ),
-        ( '.build.flash_flags', '-DFLASHMODE_QIO' ),
-        ]),
+        ('.build.flash_mode', 'qio'),
+        ('.build.flash_flags', '-DFLASHMODE_QIO'),
+    ]),
 
     'flashmode_dout': collections.OrderedDict([
-        ( '.build.flash_mode', 'dout' ),
-        ( '.build.flash_flags', '-DFLASHMODE_DOUT' ),
-        ]),
+        ('.build.flash_mode', 'dout'),
+        ('.build.flash_flags', '-DFLASHMODE_DOUT'),
+    ]),
 
     'flashmode_qout': collections.OrderedDict([
-        ( '.build.flash_mode', 'qout' ),
-        ( '.build.flash_flags', '-DFLASHMODE_QOUT' ),
-        ]),
+        ('.build.flash_mode', 'qout'),
+        ('.build.flash_flags', '-DFLASHMODE_QOUT'),
+    ]),
 
-    ####################### lwip
+    # lwip
 
     'lwip2': collections.OrderedDict([
-        ( '.menu.ip.lm2f', 'v2 Lower Memory' ),
-        ( '.menu.ip.lm2f.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.lm2f.build.lwip_lib', '-llwip2-536-feat' ),
-        ( '.menu.ip.lm2f.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0' ),
-        ( '.menu.ip.hb2f', 'v2 Higher Bandwidth' ),
-        ( '.menu.ip.hb2f.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.hb2f.build.lwip_lib', '-llwip2-1460-feat' ),
-        ( '.menu.ip.hb2f.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=0' ),
-        ( '.menu.ip.lm2n', 'v2 Lower Memory (no features)' ),
-        ( '.menu.ip.lm2n.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.lm2n.build.lwip_lib', '-llwip2-536' ),
-        ( '.menu.ip.lm2n.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=0 -DLWIP_IPV6=0' ),
-        ( '.menu.ip.hb2n', 'v2 Higher Bandwidth (no features)' ),
-        ( '.menu.ip.hb2n.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.hb2n.build.lwip_lib', '-llwip2-1460' ),
-        ( '.menu.ip.hb2n.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=0 -DLWIP_IPV6=0' ),
-        ( '.menu.ip.lm6f', 'v2 IPv6 Lower Memory' ),
-        ( '.menu.ip.lm6f.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.lm6f.build.lwip_lib', '-llwip6-536-feat' ),
-        ( '.menu.ip.lm6f.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=1' ),
-        ( '.menu.ip.hb6f', 'v2 IPv6 Higher Bandwidth' ),
-        ( '.menu.ip.hb6f.build.lwip_include', 'lwip2/include' ),
-        ( '.menu.ip.hb6f.build.lwip_lib', '-llwip6-1460-feat' ),
-        ( '.menu.ip.hb6f.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=1' ),
-        ]),
+        ('.menu.ip.lm2f', 'v2 Lower Memory'),
+        ('.menu.ip.lm2f.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.lm2f.build.lwip_lib', '-llwip2-536-feat'),
+        ('.menu.ip.lm2f.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0'),
+        ('.menu.ip.hb2f', 'v2 Higher Bandwidth'),
+        ('.menu.ip.hb2f.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.hb2f.build.lwip_lib', '-llwip2-1460-feat'),
+        ('.menu.ip.hb2f.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=0'),
+        ('.menu.ip.lm2n', 'v2 Lower Memory (no features)'),
+        ('.menu.ip.lm2n.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.lm2n.build.lwip_lib', '-llwip2-536'),
+        ('.menu.ip.lm2n.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=0 -DLWIP_IPV6=0'),
+        ('.menu.ip.hb2n', 'v2 Higher Bandwidth (no features)'),
+        ('.menu.ip.hb2n.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.hb2n.build.lwip_lib', '-llwip2-1460'),
+        ('.menu.ip.hb2n.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=0 -DLWIP_IPV6=0'),
+        ('.menu.ip.lm6f', 'v2 IPv6 Lower Memory'),
+        ('.menu.ip.lm6f.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.lm6f.build.lwip_lib', '-llwip6-536-feat'),
+        ('.menu.ip.lm6f.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=1'),
+        ('.menu.ip.hb6f', 'v2 IPv6 Higher Bandwidth'),
+        ('.menu.ip.hb6f.build.lwip_include', 'lwip2/include'),
+        ('.menu.ip.hb6f.build.lwip_lib', '-llwip6-1460-feat'),
+        ('.menu.ip.hb6f.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=1460 -DLWIP_FEATURES=1 -DLWIP_IPV6=1'),
+    ]),
 
     'lwip': collections.OrderedDict([
-        ( '.menu.ip.hb1', 'v1.4 Higher Bandwidth' ),
-        ( '.menu.ip.hb1.build.lwip_lib', '-llwip_gcc' ),
-        ( '.menu.ip.hb1.build.lwip_flags', '-DLWIP_OPEN_SRC' ),
+        ('.menu.ip.hb1', 'v1.4 Higher Bandwidth'),
+        ('.menu.ip.hb1.build.lwip_lib', '-llwip_gcc'),
+        ('.menu.ip.hb1.build.lwip_flags', '-DLWIP_OPEN_SRC'),
         #( '.menu.ip.Espressif', 'v1.4 Espressif (xcc)' ),
         #( '.menu.ip.Espressif.build.lwip_lib', '-llwip' ),
         #( '.menu.ip.Espressif.build.lwip_flags', '-DLWIP_MAYBE_XCC' ),
-        ( '.menu.ip.src', 'v1.4 Compile from source' ),
-        ( '.menu.ip.src.build.lwip_lib', '-llwip_src' ),
-        ( '.menu.ip.src.build.lwip_flags', '-DLWIP_OPEN_SRC' ),
-        ( '.menu.ip.src.recipe.hooks.sketch.prebuild.1.pattern', 'make -C "{runtime.platform.path}/tools/sdk/lwip/src" install TOOLS_PATH="{runtime.tools.xtensa-lx106-elf-gcc.path}/bin/xtensa-lx106-elf-"' ),
-        ]),
+        ('.menu.ip.src', 'v1.4 Compile from source'),
+        ('.menu.ip.src.build.lwip_lib', '-llwip_src'),
+        ('.menu.ip.src.build.lwip_flags', '-DLWIP_OPEN_SRC'),
+        ('.menu.ip.src.recipe.hooks.sketch.prebuild.1.pattern',
+         'make -C "{runtime.platform.path}/tools/sdk/lwip/src" install TOOLS_PATH="{runtime.tools.xtensa-lx106-elf-gcc.path}/bin/xtensa-lx106-elf-"'),
+    ]),
 
     'lwip_v2_higher_bandwidth': collections.OrderedDict([
-        ( '.build.lwip_include', 'lwip2/include' ),
-        ( '.build.lwip_lib', '-llwip2-536-feat' ),
-        ( '.build.lwip_flags', '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0' ),
-        ]),
+        ('.build.lwip_include', 'lwip2/include'),
+        ('.build.lwip_lib', '-llwip2-536-feat'),
+        ('.build.lwip_flags',
+         '-DLWIP_OPEN_SRC -DTCP_MSS=536 -DLWIP_FEATURES=1 -DLWIP_IPV6=0'),
+    ]),
 
-    ####################### serial
+    # serial
 
     's9': collections.OrderedDict([
-        ( '.menu.baud.9600', '9600' ),
-        ( '.menu.baud.9600.upload.speed', '9600' ),
-        ]),
+        ('.menu.baud.9600', '9600'),
+        ('.menu.baud.9600.upload.speed', '9600'),
+    ]),
     's57': collections.OrderedDict([
-        ( '.menu.baud.57600', '57600' ),
-        ( '.menu.baud.57600.upload.speed', '57600' ),
-        ]),
+        ('.menu.baud.57600', '57600'),
+        ('.menu.baud.57600.upload.speed', '57600'),
+    ]),
     's115': collections.OrderedDict([
-        ( '.menu.baud.115200', '115200' ),
-        ( '.menu.baud.115200.upload.speed', '115200' ),
-        ]),
+        ('.menu.baud.115200', '115200'),
+        ('.menu.baud.115200.upload.speed', '115200'),
+    ]),
     's256': collections.OrderedDict([
-        ( '.menu.baud.256000.windows', '256000' ),
-        ( '.menu.baud.256000.upload.speed', '256000' ),
-        ]),
+        ('.menu.baud.256000.windows', '256000'),
+        ('.menu.baud.256000.upload.speed', '256000'),
+    ]),
     's230': collections.OrderedDict([
-        ( '.menu.baud.230400.linux', '230400' ),
-        ( '.menu.baud.230400.macosx', '230400' ),
-        ( '.menu.baud.230400.upload.speed', '230400' ),
-        ]),
+        ('.menu.baud.230400.linux', '230400'),
+        ('.menu.baud.230400.macosx', '230400'),
+        ('.menu.baud.230400.upload.speed', '230400'),
+    ]),
     's460': collections.OrderedDict([
-        ( '.menu.baud.460800.linux', '460800' ),
-        ( '.menu.baud.460800.macosx', '460800' ),
-        ( '.menu.baud.460800.upload.speed', '460800' ),
-        ]),
+        ('.menu.baud.460800.linux', '460800'),
+        ('.menu.baud.460800.macosx', '460800'),
+        ('.menu.baud.460800.upload.speed', '460800'),
+    ]),
     's512': collections.OrderedDict([
-        ( '.menu.baud.512000.windows', '512000' ),
-        ( '.menu.baud.512000.upload.speed', '512000' ),
-        ]),
+        ('.menu.baud.512000.windows', '512000'),
+        ('.menu.baud.512000.upload.speed', '512000'),
+    ]),
     's921': collections.OrderedDict([
-        ( '.menu.baud.921600', '921600' ),
-        ( '.menu.baud.921600.upload.speed', '921600' ),
-        ]),
+        ('.menu.baud.921600', '921600'),
+        ('.menu.baud.921600.upload.speed', '921600'),
+    ]),
     's3000': collections.OrderedDict([
-        ( '.menu.baud.3000000', '3000000' ),
-        ( '.menu.baud.3000000.upload.speed', '3000000' ),
-        ]),
+        ('.menu.baud.3000000', '3000000'),
+        ('.menu.baud.3000000.upload.speed', '3000000'),
+    ]),
 
-    ####################### flash erase
+    # flash erase
 
     'flash_erase_menu': collections.OrderedDict([
-        ( '.menu.wipe.none', 'Only Sketch' ),
-        ( '.menu.wipe.none.upload.erase_cmd', '' ),
-        ( '.menu.wipe.sdk', 'Sketch + WiFi Settings' ),
-        ( '.menu.wipe.sdk.upload.erase_cmd', 'erase_region "{build.rfcal_addr}" 0x4000' ),
-        ( '.menu.wipe.all', 'All Flash Contents' ),
-        ( '.menu.wipe.all.upload.erase_cmd', 'erase_flash' ),
-        ]),
+        ('.menu.wipe.none', 'Only Sketch'),
+        ('.menu.wipe.none.upload.erase_cmd', ''),
+        ('.menu.wipe.sdk', 'Sketch + WiFi Settings'),
+        ('.menu.wipe.sdk.upload.erase_cmd',
+         'erase_region "{build.rfcal_addr}" 0x4000'),
+        ('.menu.wipe.all', 'All Flash Contents'),
+        ('.menu.wipe.all.upload.erase_cmd', 'erase_flash'),
+    ]),
 
-    ######################## SSL supported protocols
+    # SSL supported protocols
 
     'ssl_cipher_menu': collections.OrderedDict([
-        ( '.menu.ssl.all', 'All SSL ciphers (most compatible)' ),
-        ( '.menu.ssl.all.build.sslflags', ''),
-        ( '.menu.ssl.basic', 'Basic SSL ciphers (lower ROM use)' ),
-        ( '.menu.ssl.basic.build.sslflags', '-DBEARSSL_SSL_BASIC'),
-        ]),
+        ('.menu.ssl.all', 'All SSL ciphers (most compatible)'),
+        ('.menu.ssl.all.build.sslflags', ''),
+        ('.menu.ssl.basic', 'Basic SSL ciphers (lower ROM use)'),
+        ('.menu.ssl.basic.build.sslflags', '-DBEARSSL_SSL_BASIC'),
+    ]),
 
     'ssl_cipher_all': collections.OrderedDict([
-        ( '.build.sslflags', ''),
-        ]),
+        ('.build.sslflags', ''),
+    ]),
 
     'debug_none': collections.OrderedDict([
-            ( '.build.debug_port', '' ),
-        ]),
+        ('.build.debug_port', ''),
+    ]),
 
-    }
+    # menu.deauther_config
+
+    'deauther_config_menu': collections.OrderedDict([
+        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+
+        ('.menu.deauther_config.nodemcu', 'NodeMCU'),
+        ('.menu.deauther_config.nodemcu.build.config_flags', '-DNODEMCU'),
+
+        ('.menu.deauther_config.d1mini', 'Wemos D1 Mini'),
+        ('.menu.deauther_config.d1mini.build.config_flags', '-DWEMOS_D1_MINI'),
+
+        ('.menu.deauther_config.maltronics', 'Maltronics Deauther'),
+        ('.menu.deauther_config.maltronics.build.config_flags', '-DMALTRONICS'),
+
+        ('.menu.deauther_config.dstike_deauther_v1', 'DSTIKE Deauther'),
+        ('.menu.deauther_config.dstike_deauther_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V1'),
+
+        ('.menu.deauther_config.dstike_deauther_v2', 'DSTIKE Deauther V2'),
+        ('.menu.deauther_config.dstike_deauther_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_v3', 'DSTIKE Deauther V3'),
+        ('.menu.deauther_config.dstike_deauther_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_v3_5', 'DSTIKE Deauther V3.5'),
+        ('.menu.deauther_config.dstike_deauther_v3_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V3_5'),
+
+        ('.menu.deauther_config.dstike_deauther_led_ring',
+         'DSTIKE Deauther d-duino V5 LED Ring'),
+        ('.menu.deauther_config.dstike_deauther_led_ring.build.config_flags',
+         '-DDSTIKE_D_DUINO_B_V5_LED_RING'),
+
+        ('.menu.deauther_config.dstike_deauther_boy', 'DSTIKE Deauther Boy'),
+        ('.menu.deauther_config.dstike_deauther_boy.build.config_flags',
+         '-DDSTIKE_DEAUTHER_BOY'),
+
+        ('.menu.deauther_config.dstike_nodemcu_07', 'DSTIKE NodeMCU 07'),
+        ('.menu.deauther_config.dstike_nodemcu_07.build.config_flags',
+         '-DDSTIKE_NODEMCU_07'),
+
+        ('.menu.deauther_config.dstike_nodemcu_07_v2', 'DSTIKE NodeMCU 07 V2'),
+        ('.menu.deauther_config.dstike_nodemcu_07_v2.build.config_flags',
+         '-DDSTIKE_NODEMCU_07_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1', 'DSTIKE Deauther OLED'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5',
+         'DSTIKE Deauther OLED V1.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V1_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5_s',
+         'DSTIKE Deauther OLED V1.5S'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5_s.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V1_5_S'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v2', 'DSTIKE Deauther OLED V2'),
+        ('.menu.deauther_config.dstike_deauther_oled_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v2_5',
+         'DSTIKE Deauther OLED V2.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v2_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V2_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v3', 'DSTIKE Deauther OLED V3'),
+        ('.menu.deauther_config.dstike_deauther_oled_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v3_5',
+         'DSTIKE Deauther OLED V3.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v3_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V3_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v4', 'DSTIKE Deauther OLED V4'),
+        ('.menu.deauther_config.dstike_deauther_oled_v4.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V4'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v5', 'DSTIKE Deauther OLED V5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v6', 'DSTIKE Deauther OLED V6'),
+        ('.menu.deauther_config.dstike_deauther_oled_v6.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V6'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v1', 'DSTIKE Deauther Monster'),
+        ('.menu.deauther_config.dstike_deauther_monster_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v2',
+         'DSTIKE Deauther Monster V2'),
+        ('.menu.deauther_config.dstike_deauther_monster_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v3',
+         'DSTIKE Deauther Monster V3'),
+        ('.menu.deauther_config.dstike_deauther_monster_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v4',
+         'DSTIKE Deauther Monster V4'),
+        ('.menu.deauther_config.dstike_deauther_monster_v4.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V4'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v5',
+         'DSTIKE Deauther Monster V5'),
+        ('.menu.deauther_config.dstike_deauther_monster_v5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V5'),
+
+        ('.menu.deauther_config.dstike_usb_deauther_v1', 'DSTIKE USB Deauther'),
+        ('.menu.deauther_config.dstike_usb_deauther_v1.build.config_flags',
+         '-DDSTIKE_USB_DEAUTHER'),
+
+        ('.menu.deauther_config.dstike_usb_deauther_v2', 'DSTIKE USB Deauther V2'),
+        ('.menu.deauther_config.dstike_usb_deauther_v2.build.config_flags',
+         '-DDSTIKE_USB_DEAUTHER_V2'),
+
+        ('.menu.deauther_config.dstike_watch_v1', 'DSTIKE Deauther Watch'),
+        ('.menu.deauther_config.dstike_watch_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_WATCH'),
+
+        ('.menu.deauther_config.dstike_watch_v2', 'DSTIKE Deauther Watch V2'),
+        ('.menu.deauther_config.dstike_watch_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_WATCH V2'),
+
+        ('.menu.deauther_config.dstike_mini', 'DSTIKE Deauther Mini'),
+        ('.menu.deauther_config.dstike_mini.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MINI'),
+
+        ('.menu.deauther_config.dstike_mini_evo', 'DSTIKE Deauther Mini EVO'),
+        ('.menu.deauther_config.dstike_mini_evo.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MINI_EVO'),
+    ]),
+
+    # menu.deauther_config_dstike
+
+    'deauther_config_dstike': collections.OrderedDict([
+        ('.menu.deauther_config.dstike_deauther_v1', 'DSTIKE Deauther'),
+        ('.menu.deauther_config.dstike_deauther_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V1'),
+
+        ('.menu.deauther_config.dstike_deauther_v2', 'DSTIKE Deauther V2'),
+        ('.menu.deauther_config.dstike_deauther_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_v3', 'DSTIKE Deauther V3'),
+        ('.menu.deauther_config.dstike_deauther_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_v3_5', 'DSTIKE Deauther V3.5'),
+        ('.menu.deauther_config.dstike_deauther_v3_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_V3_5'),
+
+        ('.menu.deauther_config.dstike_deauther_led_ring',
+         'DSTIKE Deauther d-duino V5 LED Ring'),
+        ('.menu.deauther_config.dstike_deauther_led_ring.build.config_flags',
+         '-DDSTIKE_D_DUINO_B_V5_LED_RING'),
+
+        ('.menu.deauther_config.dstike_deauther_boy', 'DSTIKE Deauther Boy'),
+        ('.menu.deauther_config.dstike_deauther_boy.build.config_flags',
+         '-DDSTIKE_DEAUTHER_BOY'),
+
+        ('.menu.deauther_config.dstike_nodemcu_07', 'DSTIKE NodeMCU 07'),
+        ('.menu.deauther_config.dstike_nodemcu_07.build.config_flags',
+         '-DDSTIKE_NODEMCU_07'),
+
+        ('.menu.deauther_config.dstike_nodemcu_07_v2', 'DSTIKE NodeMCU 07 V2'),
+        ('.menu.deauther_config.dstike_nodemcu_07_v2.build.config_flags',
+         '-DDSTIKE_NODEMCU_07_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1', 'DSTIKE Deauther OLED'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5',
+         'DSTIKE Deauther OLED V1.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V1_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5_s',
+         'DSTIKE Deauther OLED V1.5S'),
+        ('.menu.deauther_config.dstike_deauther_oled_v1_5_s.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V1_5_S'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v2', 'DSTIKE Deauther OLED V2'),
+        ('.menu.deauther_config.dstike_deauther_oled_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v2_5',
+         'DSTIKE Deauther OLED V2.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v2_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V2_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v3', 'DSTIKE Deauther OLED V3'),
+        ('.menu.deauther_config.dstike_deauther_oled_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v3_5',
+         'DSTIKE Deauther OLED V3.5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v3_5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V3_5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v4', 'DSTIKE Deauther OLED V4'),
+        ('.menu.deauther_config.dstike_deauther_oled_v4.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V4'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v5', 'DSTIKE Deauther OLED V5'),
+        ('.menu.deauther_config.dstike_deauther_oled_v5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V5'),
+
+        ('.menu.deauther_config.dstike_deauther_oled_v6', 'DSTIKE Deauther OLED V6'),
+        ('.menu.deauther_config.dstike_deauther_oled_v6.build.config_flags',
+         '-DDSTIKE_DEAUTHER_OLED_V6'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v1', 'DSTIKE Deauther Monster'),
+        ('.menu.deauther_config.dstike_deauther_monster_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v2',
+         'DSTIKE Deauther Monster V2'),
+        ('.menu.deauther_config.dstike_deauther_monster_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V2'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v3',
+         'DSTIKE Deauther Monster V3'),
+        ('.menu.deauther_config.dstike_deauther_monster_v3.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V3'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v4',
+         'DSTIKE Deauther Monster V4'),
+        ('.menu.deauther_config.dstike_deauther_monster_v4.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V4'),
+
+        ('.menu.deauther_config.dstike_deauther_monster_v5',
+         'DSTIKE Deauther Monster V5'),
+        ('.menu.deauther_config.dstike_deauther_monster_v5.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MOSTER_V5'),
+
+        ('.menu.deauther_config.dstike_usb_deauther_v1', 'DSTIKE USB Deauther'),
+        ('.menu.deauther_config.dstike_usb_deauther_v1.build.config_flags',
+         '-DDSTIKE_USB_DEAUTHER'),
+
+        ('.menu.deauther_config.dstike_usb_deauther_v2', 'DSTIKE USB Deauther V2'),
+        ('.menu.deauther_config.dstike_usb_deauther_v2.build.config_flags',
+         '-DDSTIKE_USB_DEAUTHER_V2'),
+
+        ('.menu.deauther_config.dstike_watch_v1', 'DSTIKE Deauther Watch'),
+        ('.menu.deauther_config.dstike_watch_v1.build.config_flags',
+         '-DDSTIKE_DEAUTHER_WATCH'),
+
+        ('.menu.deauther_config.dstike_watch_v2', 'DSTIKE Deauther Watch V2'),
+        ('.menu.deauther_config.dstike_watch_v2.build.config_flags',
+         '-DDSTIKE_DEAUTHER_WATCH V2'),
+
+        ('.menu.deauther_config.dstike_mini', 'DSTIKE Deauther Mini'),
+        ('.menu.deauther_config.dstike_mini.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MINI'),
+
+        ('.menu.deauther_config.dstike_mini_evo', 'DSTIKE Deauther Mini EVO'),
+        ('.menu.deauther_config.dstike_mini_evo.build.config_flags',
+         '-DDSTIKE_DEAUTHER_MINI_EVO'),
+    ]),
+
+
+    # menu.deauther_config_maltronics
+
+    'deauther_config_maltronics': collections.OrderedDict([
+        ('.build.config_flags', '-DMALTRONICS'),
+    ]),
+
+    # menu.deauther_config_d1mini
+
+    'deauther_config_d1mini': collections.OrderedDict([
+        ('.menu.deauther_config.d1mini', 'Wemos D1 Mini'),
+        ('.menu.deauther_config.d1mini.build.config_flags', '-DWEMOS_D1_MINI'),
+
+        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+    ]),
+
+    # menu.deauther_config_nodemcu
+
+    'deauther_config_nodemcu': collections.OrderedDict([
+        ('.menu.deauther_config.nodemcu', 'NodeMCU'),
+        ('.menu.deauther_config.nodemcu.build.config_flags', '-DNODEMCU'),
+
+        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+    ]),
+
+}
 
 ################################################################
 # defs
 
-def checkdir ():
+
+def checkdir():
     if not os.path.isfile("boards.txt"):
         print("please run me from boards.txt directory (like: ./tools/boards.txt.py -...)")
         sys.exit(1)
@@ -1281,41 +1639,48 @@ def checkdir ():
 # debug options
 
 # https://rosettacode.org/wiki/Combinations#Python
-def comb (m, lst):
-    if m == 0: return [[]]
+
+
+def comb(m, lst):
+    if m == 0:
+        return [[]]
     return [[x] + suffix for i, x in enumerate(lst) for suffix in comb(m - 1, lst[i + 1:])]
 
-def combn (lst):
+
+def combn(lst):
     all = []
     for i in range(0, len(lst)):
         all += comb(i + 1, lst)
     return all
 
-def comb1 (lst):
+
+def comb1(lst):
     all = []
     for i in range(0, len(lst)):
-        all += [ [ lst[i] ] ]
-    all += [ lst ]
+        all += [[lst[i]]]
+    all += [lst]
     return all
 
-def all_debug ():
-    listcomb = [ 'SSL', 'TLS_MEM', 'HTTP_CLIENT', 'HTTP_SERVER' ]
-    listnocomb = [ 'CORE', 'WIFI', 'HTTP_UPDATE', 'UPDATER', 'OTA', 'OOM', 'MDNS' ]
-    listsingle = [ 'NoAssert-NDEBUG' ]
+
+def all_debug():
+    listcomb = ['SSL', 'TLS_MEM', 'HTTP_CLIENT', 'HTTP_SERVER']
+    listnocomb = ['CORE', 'WIFI', 'HTTP_UPDATE',
+                  'UPDATER', 'OTA', 'OOM', 'MDNS']
+    listsingle = ['NoAssert-NDEBUG']
     options = combn(listcomb)
     options += comb1(listnocomb)
-    options += [ listcomb + listnocomb ]
-    options += [ listsingle ]
+    options += [listcomb + listnocomb]
+    options += [listsingle]
     debugmenu = collections.OrderedDict([
-            ( '.menu.dbg.Disabled', 'Disabled' ),
-            ( '.menu.dbg.Disabled.build.debug_port', '' ),
-            ( '.menu.dbg.Serial', 'Serial' ),
-            ( '.menu.dbg.Serial.build.debug_port', '-DDEBUG_ESP_PORT=Serial' ),
-            ( '.menu.dbg.Serial1', 'Serial1' ),
-            ( '.menu.dbg.Serial1.build.debug_port', '-DDEBUG_ESP_PORT=Serial1' ),
-            ( '.menu.lvl.None____', 'None' ),
-            ( '.menu.lvl.None____.build.debug_level', '' ),
-        ])
+        ('.menu.dbg.Disabled', 'Disabled'),
+        ('.menu.dbg.Disabled.build.debug_port', ''),
+        ('.menu.dbg.Serial', 'Serial'),
+        ('.menu.dbg.Serial.build.debug_port', '-DDEBUG_ESP_PORT=Serial'),
+        ('.menu.dbg.Serial1', 'Serial1'),
+        ('.menu.dbg.Serial1.build.debug_port', '-DDEBUG_ESP_PORT=Serial1'),
+        ('.menu.lvl.None____', 'None'),
+        ('.menu.lvl.None____.build.debug_level', ''),
+    ])
 
     for optlist in options:
         debugname = ''
@@ -1337,26 +1702,28 @@ def all_debug ():
             else:
                 debugdefs += ' -DDEBUG_ESP_' + opt
         debugmenu.update(collections.OrderedDict([
-            ( '.menu.lvl.' + debugname, debugmenuname ),
-            ( '.menu.lvl.' + debugname + '.build.debug_level', debugdefs )
-            ]))
-    return { 'debug_menu': debugmenu }
+            ('.menu.lvl.' + debugname, debugmenuname),
+            ('.menu.lvl.' + debugname + '.build.debug_level', debugdefs)
+        ]))
+    return {'debug_menu': debugmenu}
 
 ################################################################
 # flash size
 
-def flash_map (flashsize_kb, fs_kb = 0):
+
+def flash_map(flashsize_kb, fs_kb=0):
 
     # mapping:
     # flash | reserved | empty | spiffs | eeprom | rf-cal | sdk-wifi-settings
 
-    spi = 0x40200000 # https://github.com/esp8266/esp8266-wiki/wiki/Memory-Map
+    spi = 0x40200000  # https://github.com/esp8266/esp8266-wiki/wiki/Memory-Map
 
     reserved = 4112
     eeprom_size_kb = 4
     rfcal_size_kb = 4
     sdkwifi_size_kb = 12
-    fs_end = (flashsize_kb - sdkwifi_size_kb - rfcal_size_kb - eeprom_size_kb) * 1024
+    fs_end = (flashsize_kb - sdkwifi_size_kb -
+              rfcal_size_kb - eeprom_size_kb) * 1024
 
     # For legacy reasons (#6531), the EEPROM sector needs to be at the old
     # FS_end calculated without regards to block size
@@ -1364,7 +1731,8 @@ def flash_map (flashsize_kb, fs_kb = 0):
 
     rfcal_addr = (flashsize_kb - sdkwifi_size_kb - rfcal_size_kb) * 1024
     if flashsize_kb <= 1024:
-        max_upload_size = (flashsize_kb - (fs_kb + eeprom_size_kb + rfcal_size_kb + sdkwifi_size_kb)) * 1024 - reserved
+        max_upload_size = (flashsize_kb - (fs_kb + eeprom_size_kb +
+                                           rfcal_size_kb + sdkwifi_size_kb)) * 1024 - reserved
         fs_start = fs_end - fs_kb * 1024
     else:
         max_upload_size = 1024 * 1024 - reserved
@@ -1376,32 +1744,36 @@ def flash_map (flashsize_kb, fs_kb = 0):
         fs_blocksize = 8192
 
     # Adjust FS_end to be a multiple of the block size
-    fs_end = fs_blocksize * (int)((fs_end - fs_start)/fs_blocksize) + fs_start;
+    fs_end = fs_blocksize * (int)((fs_end - fs_start)/fs_blocksize) + fs_start
 
-    max_ota_size = min(max_upload_size, fs_start / 2) # =(max_upload_size+empty_size)/2
-    strsize = str(int(flashsize_kb / 1024)) + 'M' if (flashsize_kb >= 1024) else str(flashsize_kb) + 'K'
-    strfs = str(int(fs_kb / 1024)) + 'M' if (fs_kb >= 1024) else str(fs_kb) + 'K'
-    strfs_strip = str(int(fs_kb / 1024)) + 'M' if (fs_kb >= 1024) else str(fs_kb) if (fs_kb > 0) else ''
+    # =(max_upload_size+empty_size)/2
+    max_ota_size = min(max_upload_size, fs_start / 2)
+    strsize = str(int(flashsize_kb / 1024)) + \
+        'M' if (flashsize_kb >= 1024) else str(flashsize_kb) + 'K'
+    strfs = str(int(fs_kb / 1024)) + \
+        'M' if (fs_kb >= 1024) else str(fs_kb) + 'K'
+    strfs_strip = str(int(fs_kb / 1024)) + 'M' if (fs_kb >=
+                                                   1024) else str(fs_kb) if (fs_kb > 0) else ''
 
     ld = 'eagle.flash.' + strsize.lower() + strfs_strip.lower() + '.ld'
     menu = '.menu.eesz.' + strsize + strfs_strip
     menub = menu + '.build.'
     desc = 'none' if (fs_kb == 0) else strfs + 'B'
     d = collections.OrderedDict([
-        ( menu, strsize + 'B (FS:' + desc + ' OTA:~%iKB)' % (max_ota_size / 1024)),
-        ( menub + 'flash_size', strsize ),
-        ( menub + 'flash_size_bytes', "0x%X" % (flashsize_kb * 1024)),
-        ( menub + 'flash_ld', ld ),
-        ( menub + 'spiffs_pagesize', '256' ),
-        ( menu + '.upload.maximum_size', "%i" % max_upload_size ),
-        ( menub + 'rfcal_addr', "0x%X" % rfcal_addr)
-        ])
+        (menu, strsize + 'B (FS:' + desc + ' OTA:~%iKB)' % (max_ota_size / 1024)),
+        (menub + 'flash_size', strsize),
+        (menub + 'flash_size_bytes', "0x%X" % (flashsize_kb * 1024)),
+        (menub + 'flash_ld', ld),
+        (menub + 'spiffs_pagesize', '256'),
+        (menu + '.upload.maximum_size', "%i" % max_upload_size),
+        (menub + 'rfcal_addr', "0x%X" % rfcal_addr)
+    ])
     if fs_kb > 0:
         d.update(collections.OrderedDict([
-            ( menub + 'spiffs_start', "0x%05X" % fs_start ),
-            ( menub + 'spiffs_end', "0x%05X" % fs_end ),
-            ( menub + 'spiffs_blocksize', "%i" % fs_blocksize ),
-            ]))
+            (menub + 'spiffs_start', "0x%05X" % fs_start),
+            (menub + 'spiffs_end', "0x%05X" % fs_end),
+            (menub + 'spiffs_blocksize', "%i" % fs_blocksize),
+        ]))
 
     if ldshow:
         if ldgen:
@@ -1424,28 +1796,35 @@ def flash_map (flashsize_kb, fs_kb = 0):
             page = 0x100
 
         print("/* Flash Split for %s chips */" % strsize)
-        print("/* sketch @0x%X (~%dKB) (%dB) */" % (spi, (max_upload_size / 1024), max_upload_size))
+        print("/* sketch @0x%X (~%dKB) (%dB) */" %
+              (spi, (max_upload_size / 1024), max_upload_size))
         empty_size = fs_start - max_upload_size
         if empty_size > 0:
-            print("/* empty  @0x%X (~%dKB) (%dB) */" % (spi + max_upload_size, empty_size / 1024, empty_size))
-        print("/* spiffs @0x%X (~%dKB) (%dB) */" % (spi + fs_start, ((fs_end - fs_start) / 1024), fs_end - fs_start))
-        print("/* eeprom @0x%X (%dKB) */" % (spi + rfcal_addr - eeprom_size_kb * 1024, eeprom_size_kb))
+            print("/* empty  @0x%X (~%dKB) (%dB) */" %
+                  (spi + max_upload_size, empty_size / 1024, empty_size))
+        print("/* spiffs @0x%X (~%dKB) (%dB) */" %
+              (spi + fs_start, ((fs_end - fs_start) / 1024), fs_end - fs_start))
+        print("/* eeprom @0x%X (%dKB) */" %
+              (spi + rfcal_addr - eeprom_size_kb * 1024, eeprom_size_kb))
         print("/* rfcal  @0x%X (%dKB) */" % (spi + rfcal_addr, rfcal_size_kb))
-        print("/* wifi   @0x%X (%dKB) */" % (spi + rfcal_addr + rfcal_size_kb * 1024, sdkwifi_size_kb))
+        print("/* wifi   @0x%X (%dKB) */" %
+              (spi + rfcal_addr + rfcal_size_kb * 1024, sdkwifi_size_kb))
         print("")
         print("MEMORY")
         print("{")
         print("  dport0_0_seg :                        org = 0x3FF00000, len = 0x10")
         print("  dram0_0_seg :                         org = 0x3FFE8000, len = 0x14000")
         print("  iram1_0_seg :                         org = 0x40100000, len = 0x8000")
-        print("  irom0_0_seg :                         org = 0x40201010, len = 0x%x" % max_upload_size)
+        print("  irom0_0_seg :                         org = 0x40201010, len = 0x%x" %
+              max_upload_size)
         print("}")
         print("")
         print("PROVIDE ( _FS_start = 0x%08X );" % (0x40200000 + fs_start))
         print("PROVIDE ( _FS_end = 0x%08X );" % (0x40200000 + fs_end))
         print("PROVIDE ( _FS_page = 0x%X );" % page)
         print("PROVIDE ( _FS_block = 0x%X );" % fs_blocksize)
-        print("PROVIDE ( _EEPROM_start = 0x%08x );" % (0x40200000 + eeprom_start))
+        print("PROVIDE ( _EEPROM_start = 0x%08x );" %
+              (0x40200000 + eeprom_start))
         # Re-add deprecated symbols pointing to the same address as the new standard ones
         print("/* The following symbols are DEPRECATED and will be REMOVED in a future release */")
         print("PROVIDE ( _SPIFFS_start = 0x%08X );" % (0x40200000 + fs_start))
@@ -1461,103 +1840,114 @@ def flash_map (flashsize_kb, fs_kb = 0):
 
     return d
 
-def all_flash_map ():
+
+def all_flash_map():
 
     f512 = collections.OrderedDict([])
-    f1m  = collections.OrderedDict([])
-    f2m  = collections.OrderedDict([])
-    f4m  = collections.OrderedDict([])
-    f8m  = collections.OrderedDict([])
+    f1m = collections.OrderedDict([])
+    f2m = collections.OrderedDict([])
+    f4m = collections.OrderedDict([])
+    f8m = collections.OrderedDict([])
     f16m = collections.OrderedDict([])
 
     #                      flash(KB) spiffs(KB)
 
-    f512.update(flash_map(     512,      32 ))
-    f512.update(flash_map(     512,      64 ))
-    f512.update(flash_map(     512,     128 ))
-    f512.update(flash_map(     512))
+    f512.update(flash_map(512,      32))
+    f512.update(flash_map(512,      64))
+    f512.update(flash_map(512,     128))
+    f512.update(flash_map(512))
 
-    f1m.update( flash_map(    1024,      64 ))
-    f1m.update( flash_map(    1024,     128 ))
-    f1m.update( flash_map(    1024,     144 ))
-    f1m.update( flash_map(    1024,     160 ))
-    f1m.update( flash_map(    1024,     192 ))
-    f1m.update( flash_map(    1024,     256 ))
-    f1m.update( flash_map(    1024,     512 ))
-    f1m.update( flash_map(    1024))
+    f1m.update(flash_map(1024,      64))
+    f1m.update(flash_map(1024,     128))
+    f1m.update(flash_map(1024,     144))
+    f1m.update(flash_map(1024,     160))
+    f1m.update(flash_map(1024,     192))
+    f1m.update(flash_map(1024,     256))
+    f1m.update(flash_map(1024,     512))
+    f1m.update(flash_map(1024))
 
-    f2m.update( flash_map(  2*1024,      64 ))
-    f2m.update( flash_map(  2*1024,     128 ))
-    f2m.update( flash_map(  2*1024,     256 ))
-    f2m.update( flash_map(  2*1024,     512 ))
-    f2m.update( flash_map(  2*1024,    1024 ))
-    f2m.update( flash_map(  2*1024))
+    f2m.update(flash_map(2*1024,      64))
+    f2m.update(flash_map(2*1024,     128))
+    f2m.update(flash_map(2*1024,     256))
+    f2m.update(flash_map(2*1024,     512))
+    f2m.update(flash_map(2*1024,    1024))
+    f2m.update(flash_map(2*1024))
 
-    f4m.update( flash_map(  4*1024,    1024 ))
-    f4m.update( flash_map(  4*1024,  2*1024 ))
-    f4m.update( flash_map(  4*1024,  3*1024 ))
-    f4m.update( flash_map(  4*1024))
+    f4m.update(flash_map(4*1024,    1024))
+    f4m.update(flash_map(4*1024,  2*1024))
+    f4m.update(flash_map(4*1024,  3*1024))
+    f4m.update(flash_map(4*1024))
 
-    f8m.update( flash_map(  8*1024,  6*1024 ))
-    f8m.update( flash_map(  8*1024,  7*1024 ))
+    f8m.update(flash_map(8*1024,  6*1024))
+    f8m.update(flash_map(8*1024,  7*1024))
 
-    f16m.update(flash_map( 16*1024, 14*1024 ))
-    f16m.update(flash_map( 16*1024, 15*1024 ))
+    f16m.update(flash_map(16*1024, 14*1024))
+    f16m.update(flash_map(16*1024, 15*1024))
 
     if ldgen:
         print("generated: ldscripts (in %s)" % lddir)
 
     return {
         '512K': f512,
-          '1M':  f1m,
-          '2M':  f2m,
-          '4M':  f4m,
-          '8M':  f8m,
-         '16M': f16m
-        }
+        '1M':  f1m,
+        '2M':  f2m,
+        '4M':  f4m,
+        '8M':  f8m,
+        '16M': f16m
+    }
 
 ################################################################
 # builtin led
 
-def led (name, default, ledList):
+
+def led(name, default, ledList):
     led = collections.OrderedDict([
-                ('.menu.led.' + str(default), str(default)),
-                ('.menu.led.' + str(default) + '.build.led', '-DLED_BUILTIN=' + str(default)),
-          ]);
-    for i in ledList: # Make range incluside of max (16), since there are really 16 GPIOS not 15
+        ('.menu.led.' + str(default), str(default)),
+        ('.menu.led.' + str(default) + '.build.led',
+         '-DLED_BUILTIN=' + str(default)),
+    ])
+    # Make range incluside of max (16), since there are really 16 GPIOS not 15
+    for i in ledList:
         if not i == default:
             led.update(
                 collections.OrderedDict([
                     ('.menu.led.' + str(i), str(i)),
-                    ('.menu.led.' + str(i) + '.build.led', '-DLED_BUILTIN=' + str(i)),
+                    ('.menu.led.' + str(i) + '.build.led',
+                     '-DLED_BUILTIN=' + str(i)),
                 ]))
-    return { name: led }
+    return {name: led}
 
 ################################################################
 # sdk selection
 
-def sdk ():
-    return { 'sdk': collections.OrderedDict([
-                        ('.menu.sdk.nonosdk_190703', 'nonos-sdk 2.2.1+100 (190703)'),
-                        ('.menu.sdk.nonosdk_190703.build.sdk', 'NONOSDK22x_190703'),
-                        ('.menu.sdk.nonosdk_191122', 'nonos-sdk 2.2.1+119 (191122)'),
-                        ('.menu.sdk.nonosdk_191122.build.sdk', 'NONOSDK22x_191122'),
-                        ('.menu.sdk.nonosdk_191105', 'nonos-sdk 2.2.1+113 (191105)'),
-                        ('.menu.sdk.nonosdk_191105.build.sdk', 'NONOSDK22x_191105'),
-                        ('.menu.sdk.nonosdk_191024', 'nonos-sdk 2.2.1+111 (191024)'),
-                        ('.menu.sdk.nonosdk_191024.build.sdk', 'NONOSDK22x_191024'),
-                     #  ('.menu.sdk.nonosdk_190313', 'nonos-sdk 2.2.1+61 (190313 testing)'),
-                     #  ('.menu.sdk.nonosdk_190313.build.sdk', 'NONOSDK22x_190313'),
-                        ('.menu.sdk.nonosdk221', 'nonos-sdk 2.2.1 (legacy)'),
-                        ('.menu.sdk.nonosdk221.build.sdk', 'NONOSDK221'),
-                        ('.menu.sdk.nonosdk3v0', 'nonos-sdk pre-3 (180626 known issues)'),
-                        ('.menu.sdk.nonosdk3v0.build.sdk', 'NONOSDK3V0'),
-                    ])
-           }
+
+def sdk():
+    return {'sdk': collections.OrderedDict([
+        ('.menu.sdk.nonosdk_190703', 'nonos-sdk 2.2.1+100 (190703)'),
+        ('.menu.sdk.nonosdk_190703.build.sdk', 'NONOSDK22x_190703'),
+        ('.menu.sdk.nonosdk_191122',
+         'nonos-sdk 2.2.1+119 (191122)'),
+        ('.menu.sdk.nonosdk_191122.build.sdk', 'NONOSDK22x_191122'),
+        ('.menu.sdk.nonosdk_191105',
+         'nonos-sdk 2.2.1+113 (191105)'),
+        ('.menu.sdk.nonosdk_191105.build.sdk', 'NONOSDK22x_191105'),
+        ('.menu.sdk.nonosdk_191024',
+         'nonos-sdk 2.2.1+111 (191024)'),
+        ('.menu.sdk.nonosdk_191024.build.sdk', 'NONOSDK22x_191024'),
+        #  ('.menu.sdk.nonosdk_190313', 'nonos-sdk 2.2.1+61 (190313 testing)'),
+        #  ('.menu.sdk.nonosdk_190313.build.sdk', 'NONOSDK22x_190313'),
+        ('.menu.sdk.nonosdk221', 'nonos-sdk 2.2.1 (legacy)'),
+        ('.menu.sdk.nonosdk221.build.sdk', 'NONOSDK221'),
+        ('.menu.sdk.nonosdk3v0',
+         'nonos-sdk pre-3 (180626 known issues)'),
+        ('.menu.sdk.nonosdk3v0.build.sdk', 'NONOSDK3V0'),
+    ])
+    }
 
 ################################################################
 
-def all_boards ():
+
+def all_boards():
 
     if boardsgen or boardslocalgen:
 
@@ -1581,8 +1971,8 @@ def all_boards ():
 
     macros.update(all_flash_map())
     macros.update(all_debug())
-    macros.update(led('led',    led_default, range(0,led_max+1)))
-    macros.update(led('led216', 2,           { 16 }))
+    macros.update(led('led',    led_default, range(0, led_max+1)))
+    macros.update(led('led216', 2,           {16}))
     macros.update(sdk())
 
     if boardfilteropt or excludeboards:
@@ -1601,10 +1991,10 @@ def all_boards ():
         print('# The following boards were included: ' + out)
         print('#')
 
-
     print('#')
     print('# Do not create pull-requests for this file only, CI will not accept them.')
-    print('# You *must* edit/modify/run ' + os.path.basename(sys.argv[0]) + ' to regenerate boards.txt.')
+    print('# You *must* edit/modify/run ' +
+          os.path.basename(sys.argv[0]) + ' to regenerate boards.txt.')
     print('# All modified files after running with option "--allgen" must be included in the pull-request.')
     print('#')
     print('')
@@ -1627,12 +2017,13 @@ def all_boards ():
     print('menu.wipe=Erase Flash')
     print('menu.sdk=Espressif FW')
     print('menu.ssl=SSL Support')
+    print('menu.deauther_config=Deauther Config')
     print('')
 
     missingboards = []
     for id in boardlist:
         if id not in boards:
-            missingboards += [ id ];
+            missingboards += [id]
             continue
 
         print('##############################################################')
@@ -1645,14 +2036,14 @@ def all_boards ():
                 print(id + optname + '=' + board['opts'][optname])
 
         # macros
-        macrolist = [ 'defaults' ]
+        macrolist = ['defaults']
         if 'macro' in board:
             macrolist += board['macro']
-        #if lwip == 2:
+        # if lwip == 2:
         #    macrolist += [ 'lwip2', 'lwip' ]
-        #else:
+        # else:
         #    macrolist += [ 'lwip', 'lwip2' ]
-        macrolist += [ 'flash_erase_menu' ]
+        macrolist += ['flash_erase_menu']
 
         for cs in customspeeds:
             print(id + cs)
@@ -1688,7 +2079,8 @@ def all_boards ():
 
 ################################################################
 
-def package ():
+
+def package():
 
     pkgfname = "package/package_esp8266com_index.template.json"
     pkgfname_read = pkgfname
@@ -1702,29 +2094,33 @@ def package ():
         os.rename(pkgfname, pkgfname_read)
 
     # read package file
-    with open (pkgfname_read, "r") as package_file:
+    with open(pkgfname_read, "r") as package_file:
         filestr = package_file.read()
 
     substitution = '"boards": [\n'
     board_items = ['            {\n              "name": "%s"\n            }' % boards[id]['name']
-                    for id in boards]
+                   for id in boards]
     substitution += ',\n'.join(board_items)
     substitution += '\n          ],'
 
-    newfilestr = re.sub(r'"boards":[^\]]*\],', substitution, filestr, re.MULTILINE)
+    newfilestr = re.sub(r'"boards":[^\]]*\],',
+                        substitution, filestr, re.MULTILINE)
 
     # To get consistent indent/formatting read the JSON and write it out programattically
     if packagegen:
         with open(pkgfname, 'w') as package_file:
-            filejson = json.loads(newfilestr, object_pairs_hook=collections.OrderedDict)
-            package_file.write(json.dumps(filejson, indent=3, separators=(',',': ')))
+            filejson = json.loads(
+                newfilestr, object_pairs_hook=collections.OrderedDict)
+            package_file.write(json.dumps(
+                filejson, indent=3, separators=(',', ': ')))
         print("updated:   %s" % pkgfname)
     else:
         sys.stdout.write(newfilestr)
 
 ################################################################
 
-def doc ():
+
+def doc():
 
     if docgen:
 
@@ -1764,7 +2160,8 @@ def doc ():
 
 ################################################################
 
-def boardnames ():
+
+def boardnames():
     print('# Available board names. Delete or comment out the boards you do not need:')
 
     for id in boards:
@@ -1775,7 +2172,8 @@ def boardnames ():
 ################################################################
 # help / usage
 
-def usage (name,ret):
+
+def usage(name, ret):
     print("")
     print("boards.txt generator for esp8266/Arduino")
     print("")
@@ -1831,6 +2229,7 @@ def usage (name,ret):
 ################################################################
 # entry point
 
+
 lwip = 2
 default_speed = '115'
 led_default = 2
@@ -1855,17 +2254,17 @@ docgen = False
 customspeeds = []
 lddir = "tools/sdk/ld/"
 
-#### vvvv cmdline parsing starts
+# vvvv cmdline parsing starts
 
 try:
     opts, args = getopt.getopt(sys.argv[1:], "h",
-        [ "help", "lwip=", "led=", "speed=", "board=", "customspeed=", "nofloat",
-          "noextra4kheap", "allowWPS",
-          "boardslocalgen", "filter=", "xfilter=", "boardnames",
-          "ld", "ldgen", "boards", "boardsgen", "package", "packagegen", "doc", "docgen",
-          "allgen"] )
+                               ["help", "lwip=", "led=", "speed=", "board=", "customspeed=", "nofloat",
+                                "noextra4kheap", "allowWPS",
+                                "boardslocalgen", "filter=", "xfilter=", "boardnames",
+                                "ld", "ldgen", "boards", "boardsgen", "package", "packagegen", "doc", "docgen",
+                                "allgen"])
 except getopt.GetoptError as err:
-    print(str(err)) # will print something like "option -a not recognized"
+    print(str(err))  # will print something like "option -a not recognized"
     usage(sys.argv[0], 1)
 
 no = '(not set)'
@@ -1877,7 +2276,7 @@ for o, a in opts:
         usage(sys.argv[0], 0)
 
     elif o in ("--boardnames"):
-       boardnames()
+        boardnames()
 
     elif o in ("--lwip"):
         lwip = a
@@ -1888,7 +2287,7 @@ for o, a in opts:
     elif o in ("--customspeed"):
         customspeeds += [
             '.menu.baud.' + a + '=' + a,
-            '.menu.baud.' + a + '.upload.speed' + '=' + a ]
+            '.menu.baud.' + a + '.upload.speed' + '=' + a]
 
     elif o in ("--board"):
         if not a in boards:
@@ -1914,7 +2313,7 @@ for o, a in opts:
         boards[board]['serial'] = a
 
     elif o in ("--nofloat"):
-        nofloat=True
+        nofloat = True
 
     elif o in ("--noextra4kheap", "--allowWPS"):
         print('option ' + o + ' is now deprecated, without effect, and will be removed')
@@ -1964,9 +2363,9 @@ for o, a in opts:
     else:
         assert False, "unhandled option"
 
-#### ^^^^ cmdline parsing ends
+# ^^^^ cmdline parsing ends
 
-#### vvvv Filter file processing if we have one
+# vvvv Filter file processing if we have one
 
 if boardfilteropt and excludeboards:
     print('Specify either --filter or --xfilter, not both.')
@@ -1981,7 +2380,7 @@ if boardfilteropt or excludeboards:
     for line in f:
         a = line.split('#', 1)[0].strip()
         if a != '':
-            boardlist += [ a ]
+            boardlist += [a]
     f.close()
 
     if not boardslocalgen:
@@ -2003,7 +2402,7 @@ if boardfilteropt or excludeboards:
     print(boardlist)
     print('')
 
-#### ^^^^ Filter file processing finished
+# ^^^^ Filter file processing finished
 
 did = False
 
@@ -2020,7 +2419,7 @@ if boardsshow:
         boardlist = []
         for b in boards:
             if b not in excludeboardlist:
-                boardlist += [ b ]
+                boardlist += [b]
     all_boards()
     did = True
 
