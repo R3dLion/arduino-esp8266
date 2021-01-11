@@ -1333,13 +1333,19 @@ macros = {
     # menu.deauther_config
 
     'deauther_config_menu': collections.OrderedDict([
-        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+        ('.menu.deauther_config.none', 'None'),
 
         ('.menu.deauther_config.nodemcu', 'NodeMCU'),
         ('.menu.deauther_config.nodemcu.build.config_flags', '-DNODEMCU'),
 
         ('.menu.deauther_config.d1mini', 'Wemos D1 Mini'),
         ('.menu.deauther_config.d1mini.build.config_flags', '-DWEMOS_D1_MINI'),
+
+        ('.menu.deauther_config.example_i2c', 'Display Example I2C'),
+        ('.menu.deauther_config.example_i2c.build.config_flags', '-DDISPLAY_EXAMPLE_I2C'),
+
+        ('.menu.deauther_config.example_spi', 'Display Example SPI'),
+        ('.menu.deauther_config.example_spi.build.config_flags', '-DDISPLAY_EXAMPLE_SPI'),
 
         ('.menu.deauther_config.maltronics', 'Maltronics Deauther'),
         ('.menu.deauther_config.maltronics.build.config_flags', '-DMALTRONICS'),
@@ -1612,7 +1618,13 @@ macros = {
         ('.menu.deauther_config.d1mini', 'Wemos D1 Mini'),
         ('.menu.deauther_config.d1mini.build.config_flags', '-DWEMOS_D1_MINI'),
 
-        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+        ('.menu.deauther_config.example_i2c', 'Display Example I2C'),
+        ('.menu.deauther_config.example_i2c.build.config_flags', '-DDISPLAY_EXAMPLE_I2C'),
+
+        ('.menu.deauther_config.example_spi', 'Display Example SPI'),
+        ('.menu.deauther_config.example_spi.build.config_flags', '-DDISPLAY_EXAMPLE_SPI'),
+
+        ('.menu.deauther_config.none', 'None'),
     ]),
 
     # menu.deauther_config_nodemcu
@@ -1621,7 +1633,13 @@ macros = {
         ('.menu.deauther_config.nodemcu', 'NodeMCU'),
         ('.menu.deauther_config.nodemcu.build.config_flags', '-DNODEMCU'),
 
-        ('.menu.deauther_config.none', 'None (manually edit A_config.h)'),
+        ('.menu.deauther_config.example_i2c', 'Display Example I2C'),
+        ('.menu.deauther_config.example_i2c.build.config_flags', '-DDISPLAY_EXAMPLE_I2C'),
+
+        ('.menu.deauther_config.example_spi', 'Display Example SPI'),
+        ('.menu.deauther_config.example_spi.build.config_flags', '-DDISPLAY_EXAMPLE_SPI'),
+
+        ('.menu.deauther_config.none', 'None'),
     ]),
 
 }
