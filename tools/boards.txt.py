@@ -1002,7 +1002,7 @@ boards = collections.OrderedDict([
             'resetmethod_nodemcu',
             'flashmode_dio',
             'flashfreq_40',
-            '4M', '2M',
+            '2M',
             'cpufreq_160',
             'vtable_flash',
             'exception_legacy',
